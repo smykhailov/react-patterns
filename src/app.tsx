@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import Home from './components/home';
-import SpreadProperties from './components/spread-props';
+import Overview from './components/overview';
+import ComponentTypes from './components/component-types';
 
 const App: React.FC = () => {
   return (
@@ -15,20 +15,20 @@ const App: React.FC = () => {
           <aside>
             <ul>
               <li>
-                <Link to="/">Home</Link>
+                <Link to="/">Overview</Link>
               </li>
               <li>
-                <Link to="/spread-props">Spread Props</Link>
+                <Link to="/component-types">Component Types</Link>
               </li>
             </ul>
           </aside>
           <main>
             <Switch>
-              <Route path="/spread-props">
-                <SpreadProperties />
+              <Route path="/component-types">
+                <ComponentTypes />
               </Route>
               <Route exact path="/">
-                <Home />
+                <Overview />
               </Route>
             </Switch>
           </main>
