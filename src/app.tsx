@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import Overview from './components/overview';
 import ComponentTypes from './components/component-types';
+import Hooks from './components/hooks';
+import Context from './components/context';
+import Functions from './components/functions';
 
 const App: React.FC = () => {
   return (
@@ -20,12 +23,30 @@ const App: React.FC = () => {
               <li>
                 <Link to="/component-types">Component Types</Link>
               </li>
+              <li>
+                <Link to="/hooks">Hooks</Link>
+              </li>
+              <li>
+                <Link to="/context">Context</Link>
+              </li>
+              <li>
+                <Link to="/functions">Functions</Link>
+              </li>
             </ul>
           </aside>
           <main>
             <Switch>
               <Route path="/component-types">
                 <ComponentTypes />
+              </Route>
+              <Route path="/hooks">
+                <Hooks />
+              </Route>
+              <Route path="/context">
+                <Context />
+              </Route>
+              <Route path="/functions">
+                <Functions />
               </Route>
               <Route exact path="/">
                 <Overview />
