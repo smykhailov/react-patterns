@@ -6,6 +6,7 @@
     "@jackwilsdon/craco-use-babelrc": "^1.0.0",
     "@mdx-js/loader": "^1.5.3",
     "@mdx-js/mdx": "^1.5.3",
+    "@mdx-js/react": "^1.5.3",
     "craco": "^0.0.3",
     "prism-react-renderer": "^1.0.2",
     "react": "^16.12.0",

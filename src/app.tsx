@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import Overview from './components/overview';
 import ComponentTypes from './components/component-types';
 import Hooks from './components/hooks';
 import Functions from './components/functions';
+// @ts-ignore
+import Overview from './pages/Overview.mdx';
 // @ts-ignore
 import Context from './pages/Context.mdx';
 

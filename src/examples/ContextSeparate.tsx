@@ -3,23 +3,23 @@ import React from 'react';
 import RenderCounter from '../components/RenderCounter';
 import useForceUpdate from '../hooks/useForceUpdate';
 
-type ContextValue =  number;
+type ContextValue = number;
 
 const FooContext = React.createContext<ContextValue>(0);
 const BarContext = React.createContext<ContextValue>(0);
 
 const Provider: React.FC = props => {
-  const fooValue = 1
-  const barValue = 2
+  const fooValue = 1;
+  const barValue = 2;
 
   return (
     <RenderCounter color="blue" style={{ width: '70%' }}>
       <FooContext.Provider value={fooValue}>
         <BarContext.Provider value={barValue}>
-        <div>
-          <code>Provider: {JSON.stringify(fooValue, null, 2)}</code>
-        </div>
-        <div>{props.children}</div>
+          <div>
+            <code>Provider: {JSON.stringify(fooValue, null, 2)}</code>
+          </div>
+          <div>{props.children}</div>
         </BarContext.Provider>
       </FooContext.Provider>
     </RenderCounter>
