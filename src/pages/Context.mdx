@@ -1,0 +1,58 @@
+import ContextMemoized from '../examples/ContextMemoized';
+import ContextSeparate from '../examples/ContextSeparate';
+import ContextUnmemoizedExample from '../examples/ContextUnmemoized';
+
+## Context
+
+This page covers only modern React Context API, i.e. `createContext()`.
+
+### Case: Unmemoized value
+
+React notifies all context consumers on every update. Updates occurs when `Provider` is rendered with a new value, to compare values React uses shallow compare. For example the code below will trigger rerender always:
+
+```jsx
+const Example = props => {
+  const { children } = props;
+  const value = { value: 1 };
+
+  return <Provider value={value}>{children}</Provider>;
+};
+```
+
+<ContextUnmemoizedExample />
+
+### Solution 1: use memoized context value
+
+If value is changing rarely is good option to memoize values.
+
+```jsx
+const Example = props => {
+  const { children } = props;
+  const value = React.useMemo(() => ({ value: 1 }), []);
+
+  return <Provider value={value}>{children}</Provider>;
+};
+```
+
+<ContextMemoized />
+
+For class components you can use `this.state`.
+
+### Solution 2: use separate contexts
+
+```jsx
+const Example = props => {
+  const { children } = props;
+
+  const firstValue = '';
+  const secondValue = '';
+
+  return (
+    <FirstProvider value={firstValue}>
+      <SecondProvider value={secondValue}>{children}</SecondProvider>
+    </FirstProvider>
+  );
+};
+```
+
+<ContextSeparate />

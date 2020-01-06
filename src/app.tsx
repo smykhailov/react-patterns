@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Overview from './components/overview';
 import ComponentTypes from './components/component-types';
 import Hooks from './components/hooks';
-import Context from './components/context';
 import Functions from './components/functions';
+// @ts-ignore
+import Context from './pages/Context.mdx';
 
 const App: React.FC = () => {
   return (
@@ -35,23 +36,25 @@ const App: React.FC = () => {
             </ul>
           </aside>
           <main>
-            <Switch>
-              <Route path="/component-types">
-                <ComponentTypes />
-              </Route>
-              <Route path="/hooks">
-                <Hooks />
-              </Route>
-              <Route path="/context">
-                <Context />
-              </Route>
-              <Route path="/functions">
-                <Functions />
-              </Route>
-              <Route exact path="/">
-                <Overview />
-              </Route>
-            </Switch>
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <Switch>
+                <Route path="/component-types">
+                  <ComponentTypes />
+                </Route>
+                <Route path="/hooks">
+                  <Hooks />
+                </Route>
+                <Route path="/context">
+                  <Context />
+                </Route>
+                <Route path="/functions">
+                  <Functions />
+                </Route>
+                <Route exact path="/">
+                  <Overview />
+                </Route>
+              </Switch>
+            </React.Suspense>
           </main>
         </div>
         <footer>
