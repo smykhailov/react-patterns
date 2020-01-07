@@ -11,7 +11,7 @@ import Context from './pages/Context.mdx';
 
 const App: React.FC = () => {
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router>
       <div className="wrapper">
         <header>
           <h1>React Patterns</h1>
