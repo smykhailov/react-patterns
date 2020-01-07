@@ -1,5 +1,5 @@
 import React from 'react';
-import { hashHistory as Router, Switch, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import ComponentTypes from './components/component-types';
 import Hooks from './components/hooks';
