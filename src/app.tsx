@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { hashHistory as Router, Switch, Route, Link } from 'react-router-dom';
 
 import ComponentTypes from './components/component-types';
 import Hooks from './components/hooks';
@@ -11,7 +11,7 @@ import Context from './pages/Context.mdx';
 
 const App: React.FC = () => {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="wrapper">
         <header>
           <h1>React Patterns</h1>
