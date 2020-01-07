@@ -1,30 +1,29 @@
 import React from 'react';
+import { createContext, useContextSelector } from 'use-context-selector';
+
 import RenderCounter from '../components/RenderCounter';
 
-type ContextValue = number;
+type ContextValue = { foo: number; bar: number };
 
-const FooContext = React.createContext<ContextValue>(0);
-const BarContext = React.createContext<ContextValue>(0);
+const Context = createContext<ContextValue>({ foo: 0, bar: 0 });
 
-const Provider: React.FC<{ foo: number, bar: number }> = props => {
+const Provider: React.FC<{ foo: number; bar: number }> = props => {
   const { foo, bar } = props;
 
   return (
     <RenderCounter color="blue" style={{ width: '70%' }}>
-      <FooContext.Provider value={foo}>
-        <BarContext.Provider value={bar}>
-          <div>
-            <code>Provider: {JSON.stringify({ foo, bar }, null, 2)}</code>
-          </div>
-          <div>{props.children}</div>
-        </BarContext.Provider>
-      </FooContext.Provider>
+      <Context.Provider value={{ foo, bar }}>
+        <div>
+          <code>Provider: {JSON.stringify({ foo, bar }, null, 2)}</code>
+        </div>
+        <div>{props.children}</div>
+      </Context.Provider>
     </RenderCounter>
   );
 };
 
 const ConsumerFoo: React.FC = React.memo(() => {
-  const value = React.useContext(FooContext);
+  const value = useContextSelector(Context, v => v.foo);
 
   return (
     <RenderCounter color="green" style={{ width: '70%' }}>
@@ -34,7 +33,7 @@ const ConsumerFoo: React.FC = React.memo(() => {
 });
 
 const ConsumerBar: React.FC = React.memo(() => {
-  const value = React.useContext(BarContext);
+  const value = useContextSelector(Context, v => v.bar);
 
   return (
     <RenderCounter color="red" style={{ width: '70%' }}>
@@ -49,10 +48,10 @@ export default () => {
   return (
     <>
       <Provider foo={count} bar={1}>
-        <ConsumerFoo/>
-        <ConsumerBar/>
+        <ConsumerFoo />
+        <ConsumerBar />
       </Provider>
-      <hr style={{ background: 'transparent' }}/>
+      <hr style={{ background: 'transparent' }} />
       <button onClick={() => setCount(count + 1)}>Render example</button>
     </>
   );

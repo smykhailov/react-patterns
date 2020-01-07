@@ -1,51 +1,78 @@
 import ContextMemoized from '../examples/ContextMemoized';
 import ContextSeparate from '../examples/ContextSeparate';
+import ContextSelectorExample from '../examples/ContextSelector';
 import ContextUnmemoizedExample from '../examples/ContextUnmemoized';
 
 ## Context
 
-This page covers only modern React Context API, i.e. `createContext()`.
+This page covers only modern React Context API, i.e. [`createContext()`](https://reactjs.org/docs/context.html).
 
-### Case: Unmemoized value
+### Context behavior
 
-React notifies all context consumers on every update. Updates occurs when `Provider` is rendered with a new value, to compare values React uses shallow compare. For example the code below will trigger rerender always:
+All consumers that are descendants of a `Provider` will re-render whenever the `Provider`’s `value` prop changes. The propagation from `Provider` to its descendant consumers (including `.contextType` on class components and `useContext()` hook) is not subject to the `shouldComponentUpdate()` method or `React.memo()`, so the consumer is updated even when an ancestor component skips an update.
+
+```jsx
+// 💡 React.memo will ignored
+const Example = React.memo(props => {
+  // 💣 Updates will be triggered inside
+  const value = React.useContext(Context);
+
+  return <div />;
+});
+```
+
+For example the code below will trigger rerender always as `context` object will be always newly created.
 
 ```jsx
 const Example = props => {
   const { children } = props;
-  const value = { value: 1 };
+  // ⛔ ({ value: 1 } === { value: 1 }) is false, so reference is different
+  const context = { value: 1 };
 
-  return <Provider value={value}>{children}</Provider>;
+  return <Provider value={context}>{children}</Provider>;
 };
 ```
 
 <ContextUnmemoizedExample />
 
-### Solution 1: use memoized context value
+### Solution 1: Use memoized context value
 
-If value is changing rarely is good option to memoize values.
+If value is changing rarely is good option to memoize an object value with `useMemo()` hook.
 
 ```jsx
 const Example = props => {
-  const { children } = props;
-  const value = React.useMemo(() => ({ value: 1 }), []);
+  const { children, value } = props;
+  // ✅ Now new `context` will be recreated only on `value` change
+  const context = React.useMemo(() => ({ value }), [value]);
 
-  return <Provider value={value}>{children}</Provider>;
+  return <Provider value={context}>{children}</Provider>;
 };
 ```
 
 <ContextMemoized />
 
-For class components you can use `this.state`.
+For class components you can use `this.state`:
 
-### Solution 2: use separate contexts
+```jsx
+class Example extends React.Component {
+  render() {
+    return <Provider value={this.state}>{children}</Provider>;
+  }
+}
+```
+
+### Solution 2: Use separate contexts
+
+This trick was [described](https://kentcdodds.com/blog/how-to-use-react-context-effectively) by Kent Dodds. Idea is to pass plain/memoized
+values in separate contexts to avoid useless notifications to subscribers.
 
 ```jsx
 const Example = props => {
   const { children } = props;
 
-  const firstValue = '';
-  const secondValue = '';
+  // ❗ both values are plain and safe for shallow compare
+  const firstValue = 1;
+  const secondValue = 2;
 
   return (
     <FirstProvider value={firstValue}>
@@ -56,3 +83,36 @@ const Example = props => {
 ```
 
 <ContextSeparate />
+
+### Solution 3: Experimental bits API
+
+React provides an expiremental API with `calculateChangedBits` & `calculateChangedBits`:
+
+```jsx
+function createContext<T>(defaultValue: T, calculateChangedBits?: (prev: T, next: T) => number): Context<T>;
+function useContext<T>(context: Context<T>, observedBits?: number|boolean): T;
+```
+
+Which allows to change default behavior of Context API and avoid useless rerenders. As it's experimental there are no official docs yet, check [this article](https://medium.com/@leonardobrunolima/react-tips-context-api-performance-considerations-d964f3ad3087) to get more details.
+
+`changedBits === 0` has a [special handling](https://github.com/facebook/react/blob/9b0bd43550206e04bfe9ca695e5981eff0e2d03f/packages/react-reconciler/src/ReactFiberBeginWork.js#L2304) in `react-reconciler`, so the simplest and interesting trick is to disable any consumer's updates:
+
+```jsx
+// ☠️ Even is `value` will change updates will be silenced
+const Context = React.createContext(value, () => 0);
+```
+ [`use-context-selector`](https://www.npmjs.com/package/use-context-selector) uses `changedBits === 0` to implement selector-like API for hooks which currently stays as an [open RFC](https://github.com/reactjs/rfcs/pull/119).
+
+```jsx
+const Example = React.memo(props => {
+  // ✅ Updates of other context properties will be ignored
+  const locale = useContextSelector(LocaleContext, v => v.locale);
+
+  return <div>Current locale is {locale}.</div>;
+});
+```
+
+<ContextSelectorExample />
+
+There is also a lot of custom context/global state implementations, comparison
+for Concurrent mode [available there](https://github.com/dai-shi/will-this-react-global-state-work-in-concurrent-mode).
