@@ -7,6 +7,7 @@ import Functions from './components/functions';
 
 import Overview from './pages/Overview.mdx';
 import Context from './pages/Context.mdx';
+import Immutability from './pages/Immutability.mdx';
 
 const App: React.FC = () => {
   return (
@@ -33,6 +34,9 @@ const App: React.FC = () => {
               <li>
                 <Link to="/functions">Functions</Link>
               </li>
+              <li>
+                <Link to="/immutability">Immutability</Link>
+              </li>
             </ul>
           </aside>
           <main>
@@ -49,6 +53,9 @@ const App: React.FC = () => {
                 </Route>
                 <Route path="/functions">
                   <Functions />
+                </Route>
+                <Route path="/immutability">
+                  <Immutability />
                 </Route>
                 <Route exact path="/">
                   <Overview />
