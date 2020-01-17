@@ -1,11 +1,14 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import ComponentTypes from './components/component-types';
 import Hooks from './components/hooks';
 import Functions from './components/functions';
 
 import Overview from './pages/Overview.mdx';
+import Components from './pages/Components.mdx';
+import ClassComponent from './pages/ClassComponent.mdx';
+import PureComponent from './pages/PureComponent.mdx';
+import FunctionComponent from './pages/FunctionComponent.mdx';
 import Context from './pages/Context.mdx';
 import Immutability from './pages/Immutability.mdx';
 
@@ -23,7 +26,18 @@ const App: React.FC = () => {
                 <Link to="/">Overview</Link>
               </li>
               <li>
-                <Link to="/component-types">Component Types</Link>
+                <Link to="/components">Components</Link>
+                <ul>
+                  <li>
+                    <Link to="/class-component">Class Component</Link>
+                  </li>
+                  <li>
+                    <Link to="/pure-component">Pure Component</Link>
+                  </li>
+                  <li>
+                    <Link to="/function-component">Function Component</Link>
+                  </li>
+                </ul>
               </li>
               <li>
                 <Link to="/hooks">Hooks</Link>
@@ -42,24 +56,18 @@ const App: React.FC = () => {
           <main>
             <React.Suspense fallback={<div>Loading...</div>}>
               <Switch>
-                <Route path="/component-types">
-                  <ComponentTypes />
-                </Route>
-                <Route path="/hooks">
-                  <Hooks />
-                </Route>
-                <Route path="/context">
-                  <Context />
-                </Route>
-                <Route path="/functions">
-                  <Functions />
-                </Route>
-                <Route path="/immutability">
-                  <Immutability />
-                </Route>
-                <Route exact path="/">
-                  <Overview />
-                </Route>
+                <Route path="/components" component={Components} />
+                <Route path="/class-component" component={ClassComponent} />
+                <Route path="/pure-component" component={PureComponent} />
+                <Route
+                  path="/function-component"
+                  component={FunctionComponent}
+                />
+                <Route path="/hooks" component={Hooks} />
+                <Route path="/context" component={Context} />
+                <Route path="/functions" component={Functions} />
+                <Route path="/immutability" component={Immutability} />
+                <Route exact path="/" component={Overview} />
               </Switch>
             </React.Suspense>
           </main>
