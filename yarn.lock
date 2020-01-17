@@ -4653,6 +4653,11 @@ immer@1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
 
+immer@^5.3.2:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-5.3.2.tgz#e3a1c9f3550f925278fd86b8d2d644f7d5e9561b"
+  integrity sha512-wPWsSV0fv8iT7QQVs3rxBDWTbi5pHrVgnQv/McMfaRGJTLfQ3jFMEr08UibqS8hM17KCQXcjjYYzQzYe5e7BIA==
+
 import-cwd@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/import-cwd/-/import-cwd-2.1.0.tgz#aa6cf36e722761285cb371ec6519f53e2435b0a9"
@@ -9462,6 +9467,11 @@ use-context-selector@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/use-context-selector/-/use-context-selector-1.0.1.tgz#e179173c6e8f2d0a552ff90e9c1ad87581243913"
   integrity sha512-1kqu7JVg5n0wXAAYyPVTXMumqPMQw1SLCqAks8/v43AvVlWh/JERaMQA0OUdi3FxbVMK7PYxY5vC7FtH/51hBA==
+
+use-immer@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/use-immer/-/use-immer-0.3.5.tgz#e9aa5a4e82ef7eab4fced977d4daa1c3ef466725"
+  integrity sha512-0CNaJ/CtnF8/OmM4NBG7R0rhWMMQtgXPmWbakv8CK5z8dXeMaBYValFDXpkjBnToknjKJZuEPcoUZYd0rnQL2Q==
 
 use@^3.1.0:
   version "3.1.1"
