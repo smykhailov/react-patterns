@@ -1,14 +1,13 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import Hooks from './components/hooks';
-import Functions from './components/functions';
-
 import Overview from './pages/Overview.mdx';
 import Components from './pages/Components.mdx';
 import ClassComponent from './pages/ClassComponent.mdx';
 import PureComponent from './pages/PureComponent.mdx';
 import FunctionComponent from './pages/FunctionComponent.mdx';
+import Hooks from './pages/Hooks.mdx';
+import Functions from './pages/Functions.mdx';
 import Context from './pages/Context.mdx';
 import Immutability from './pages/Immutability.mdx';
 
