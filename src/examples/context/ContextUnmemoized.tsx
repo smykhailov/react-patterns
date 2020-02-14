@@ -1,7 +1,7 @@
 import React from 'react';
 
-import RenderCounter from '../components/RenderCounter';
-import useForceUpdate from '../hooks/useForceUpdate';
+import RenderCounter from '../../components/RenderCounter';
+import useForceUpdate from '../../hooks/useForceUpdate';
 
 type ContextValue = { value: number };
 const Context = React.createContext<ContextValue>({ value: 1 });
@@ -9,7 +9,7 @@ const Context = React.createContext<ContextValue>({ value: 1 });
 const Provider: React.FC = props => {
   const value = { value: 1 };
   return (
-    <RenderCounter color="blue" style={{ width: '70%' }}>
+    <RenderCounter color="blue">
       <Context.Provider value={value}>
         <div>
           <code>Provider: {JSON.stringify(value, null, 2)}</code>
@@ -24,7 +24,7 @@ const Consumer: React.FC = React.memo(() => {
   const value = React.useContext(Context);
 
   return (
-    <RenderCounter color="green" style={{ width: '70%' }}>
+    <RenderCounter color="green">
       <code>Consumer: {JSON.stringify(value, null, 2)}</code>
     </RenderCounter>
   );

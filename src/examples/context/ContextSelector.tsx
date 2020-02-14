@@ -1,7 +1,7 @@
 import React from 'react';
 import { createContext, useContextSelector } from 'use-context-selector';
 
-import RenderCounter from '../components/RenderCounter';
+import RenderCounter from '../../components/RenderCounter';
 
 type ContextValue = { foo: number; bar: number };
 
@@ -11,7 +11,7 @@ const Provider: React.FC<{ foo: number; bar: number }> = props => {
   const { foo, bar } = props;
 
   return (
-    <RenderCounter color="blue" style={{ width: '70%' }}>
+    <RenderCounter color="blue">
       <Context.Provider value={{ foo, bar }}>
         <div>
           <code>Provider: {JSON.stringify({ foo, bar }, null, 2)}</code>
@@ -26,7 +26,7 @@ const ConsumerFoo: React.FC = React.memo(() => {
   const value = useContextSelector(Context, v => v.foo);
 
   return (
-    <RenderCounter color="green" style={{ width: '70%' }}>
+    <RenderCounter color="green">
       <code>ConsumerFoo: {JSON.stringify(value, null, 2)}</code>
     </RenderCounter>
   );
@@ -36,7 +36,7 @@ const ConsumerBar: React.FC = React.memo(() => {
   const value = useContextSelector(Context, v => v.bar);
 
   return (
-    <RenderCounter color="red" style={{ width: '70%' }}>
+    <RenderCounter color="red">
       <code>ConsumerBar: {JSON.stringify(value, null, 2)}</code>
     </RenderCounter>
   );

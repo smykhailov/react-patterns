@@ -17,7 +17,10 @@ const RenderCounter = React.memo<RenderCounterProps>(props => {
         borderStyle: 'solid',
         borderWidth: 3,
         borderColor: props.color,
-        position: 'relative'
+        position: 'relative',
+        width: '70%',
+        marginTop: 4,
+        marginBottom: 4
       }}
     >
       <div
