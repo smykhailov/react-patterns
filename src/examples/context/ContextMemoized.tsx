@@ -1,7 +1,7 @@
 import React from 'react';
 
 import RenderCounter from '../../components/RenderCounter';
-import useForceUpdate from '../../hooks/useForceUpdate';
+import { useForceUpdate } from '../../hooks/useForceUpdate';
 
 type ContextValue = { value: number };
 const Context = React.createContext<ContextValue>({ value: 1 });
@@ -31,7 +31,7 @@ const Consumer: React.FC = React.memo(() => {
 });
 
 export default () => {
-  const [update] = useForceUpdate();
+  const update = useForceUpdate();
 
   return (
     <>

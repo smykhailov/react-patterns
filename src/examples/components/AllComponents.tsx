@@ -1,5 +1,5 @@
-import React, { Component, useState } from 'react';
-import useForceUpdate from '../../hooks/useForceUpdate';
+import React, { Component } from 'react';
+import { useForceValueUpdate } from '../../hooks/useForceUpdate';
 import RenderCounter from '../../components/RenderCounter';
 import {
   ChildClassComponent,
@@ -37,7 +37,7 @@ class ComponentsContainerMemoized extends Component<TCompProps> {
 }
 
 export default (props: TProps) => {
-  const [update, value] = useForceUpdate(props.changeProps);
+  const [update, value] = useForceValueUpdate(props.changeProps);
 
   return (
     <>
