@@ -9,6 +9,7 @@ import {
   ChildFunctionComponentMemoized,
   ChildPureComponentMemoized
 } from './ChildComponents';
+import { TProps, TCompProps } from './common';
 
 class ComponentsContainer extends Component<TCompProps> {
   render() {
@@ -50,13 +51,4 @@ export default (props: TProps) => {
       <button onClick={() => update()}>Render example</button>
     </>
   );
-};
-
-type TProps = {
-  isMemoized: boolean;
-  changeProps: boolean;
-} & TCompProps;
-
-type TCompProps = {
-  value: number;
 };

@@ -4,10 +4,31 @@ import PureComponent from '../examples/components/PureComponent.tsx';
 
 `React.Component` encapsulates [State and Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html).
 
-### Normal
+### Regular Component
+
+`Pure` component implements `shouldComponentUpdate()` with a **shallow prop and state comparison**.
+That means no additional changes needed for the plain props.
+
+```tsx
+export class ChildPureComponent extends PureComponent<TValue> {
+  // `Pure` component implements `shouldComponentUpdate()` with a **shallow prop and state comparison**.
+  // That means no additional changes needed for the plain props.
+  // ✅ Component does not re-render if parent component re-renders
+  // but the props have not been changed.
+  render() {
+    return (
+      <RenderCounter color="green">
+        Child Pure Component: {this.props.value}
+      </RenderCounter>
+    );
+  }
+}
+```
 
 <PureComponent isMemoized={false} />
 
-### Memoized
+and it re-renders as expected, when prop has been changes.
 
-<PureComponent isMemoized={true} />
+<PureComponent isMemoized={true} changeProps={true} />
+
+// TODO: Add example with object props

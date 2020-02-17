@@ -2,12 +2,76 @@ import ClassComponent from '../examples/components/ClassComponent.tsx';
 
 ## Class Component
 
-`React.Component` encapsulates [State and Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html).
+[`React.Component`](https://reactjs.org/docs/react-component.html) encapsulates [State and Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html).
 
-### Normal
+### Regular Component
+
+```tsx
+import React, { Component, FunctionComponent, PureComponent } from 'react';
+import RenderCounter from '../../components/RenderCounter';
+
+export class ChildClassComponent extends Component<TValue> {
+  render() {
+    // if parent component updates this component will be re-rendered 💣,
+    // no matter if the prop has been changed or not.
+    return (
+      <RenderCounter color="red">
+        Child Class Component: {this.props.value}
+      </RenderCounter>
+    );
+  }
+}
+```
 
 <ClassComponent isMemoized={false} />
 
-### Memoized
+### Solution 1: Override `shouldComponentUpdate()` lifecycle method
 
-<ClassComponent isMemoized={true} />
+```tsx
+export class ChildClassComponentMemoized extends Component<TValue> {
+  // ✅ place the logic to detect if component should update or not.
+  shouldComponentUpdate(nextProps: Readonly<TValue>) {
+    // 💡 the logic here might become very complicated,
+    // make sure you split components to the small or
+    // consider using Pure or Function components.
+    return nextProps.value !== this.props.value;
+  }
+
+  // ✅ the component re-renders only if prop has been changed.
+  render() {
+    return (
+      <RenderCounter color="red">
+        Child Class Component <strong>Memoized</strong>: {this.props.value}
+      </RenderCounter>
+    );
+  }
+}
+```
+
+<ClassComponent isMemoized={true} changeProps={false} />
+
+and it re-renders as expected, when prop has been changes.
+
+<ClassComponent isMemoized={true} changeProps={true} />
+
+### Solution 2: Use Pure Component
+
+Consider using Pure Component.
+
+```tsx
+export class ChildPureComponent extends PureComponent<TValue> {
+  // `Pure` component implements `shouldComponentUpdate()` with a **shallow prop and state comparison**.
+  // That means no additional changes needed for the plain props.
+  // ✅ Component does not re-render if parent component re-renders
+  // but the props have not been changed.
+  render() {
+    return (
+      <RenderCounter color="green">
+        Child Pure Component: {this.props.value}
+      </RenderCounter>
+    );
+  }
+}
+```
+
+// TODO: Add example with object props
