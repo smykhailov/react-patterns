@@ -2,12 +2,40 @@ import AllComponents from '../examples/components/AllComponents.tsx';
 
 ## Components
 
-`React.Component` encapsulates [State and Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html).
+[`React.Component`](https://reactjs.org/docs/react-component.html) encapsulates [State and Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html).
 
-### Normal
+There are few types o the components available in React:
 
-<AllComponents isMemoized={false} />
+- **Class Components** - the component which extends [`React.Component`](https://reactjs.org/docs/react-api.html#reactcomponent) and uses OOP paradigms to handle state, properties, actions and manage component lifecycle. React component re-renders if the parent component got re-rendered even if no props were changed.
+- **Pure Components** - the [`React.PureComponent`](https://reactjs.org/docs/react-api.html#reactpurecomponent) is similar to the `React.Component`. The difference between them is that `React.Component` doesn’t implement `shouldComponentUpdate()`, but `React.PureComponent` implements it with a **shallow prop and state comparison**.
+- **Function Component** - the `React.FunctionComponent` is the component which takes props and renders them based on internal component logic.
 
-### Memoized
+### Regular components no props change
 
-<AllComponents isMemoized={true} />
+If there is no any additional work on the child components done the `Class` and `Function` children components will re-render even if **no properties have been changed**.
+
+As `Pure` component implements shallow comparison of the props out of the box, it won't re-render.
+
+<AllComponents isMemoized={false} changeProps={false} />
+
+### Regular components props change
+
+If **any prop has been changed** on any of the component type: `Class`, `Pure`, `Function` all of them will re-render and this is **expected** behavior.
+
+<AllComponents isMemoized={false} changeProps={true} />
+
+### Memoized components no props change
+
+Components should be "memoized" to prevent re-rendering when no props have been changed.
+
+The "memoziation" techniques described in the corresponding section of each component type.
+
+The only `Pure` component has this functionality out of the box and no additional work for such component required.
+
+<AllComponents isMemoized={true} changeProps={false} />
+
+### Memoized components props change
+
+If **any prop has been changed** on any of the component type: `Class`, `Pure`, `Function` all of them will re-render even if they are "memoized" and this is **expected** behavior.
+
+<AllComponents isMemoized={true} changeProps={true} />

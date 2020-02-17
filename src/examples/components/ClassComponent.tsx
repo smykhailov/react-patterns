@@ -3,8 +3,6 @@ import useForceUpdate from '../../hooks/useForceUpdate';
 import RenderCounter from '../../components/RenderCounter';
 import {
   ChildClassComponent,
-  ChildPureComponent,
-  ChildFunctionComponent,
   ChildClassComponentMemoized
 } from './ChildComponents';
 
@@ -31,7 +29,7 @@ class ClassComponentContainerMemoized extends Component {
 }
 
 export default (props: { isMemoized: boolean }) => {
-  const update = useForceUpdate();
+  const [update] = useForceUpdate();
 
   return (
     <>

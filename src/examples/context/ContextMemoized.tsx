@@ -31,7 +31,7 @@ const Consumer: React.FC = React.memo(() => {
 });
 
 export default () => {
-  const update = useForceUpdate();
+  const [update] = useForceUpdate();
 
   return (
     <>
