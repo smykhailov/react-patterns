@@ -2,18 +2,15 @@ import ClassComponent from '../examples/components/ClassComponent.tsx';
 
 ## Class Component
 
-[`React.Component`](https://reactjs.org/docs/react-component.html) encapsulates [State and Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html).
+**Class Component** - the component which extends [`React.Component`](https://reactjs.org/docs/react-api.html#reactcomponent) and uses OOP paradigms to handle state, properties, actions and manage component lifecycle. React component re-renders if the parent component got re-rendered even if no props were changed.
 
 ### Regular Component
 
 ```tsx
-import React, { Component, FunctionComponent, PureComponent } from 'react';
-import RenderCounter from '../../components/RenderCounter';
-
 export class ChildClassComponent extends Component<TValue> {
   render() {
     // if parent component updates this component will be re-rendered 💣,
-    // no matter if the prop has been changed or not.
+    // no matter if the props have been changed or not.
     return (
       <RenderCounter color="red">
         Child Class Component: {this.props.value}
@@ -37,7 +34,7 @@ export class ChildClassComponentMemoized extends Component<TValue> {
     return nextProps.value !== this.props.value;
   }
 
-  // ✅ the component re-renders only if prop has been changed.
+  // ✅ the component re-renders only if props have been changed.
   render() {
     return (
       <RenderCounter color="red">
@@ -50,7 +47,7 @@ export class ChildClassComponentMemoized extends Component<TValue> {
 
 <ClassComponent isMemoized={true} changeProps={false} />
 
-and it re-renders as expected, when prop has been changes.
+and it re-renders as expected, when props have been changes.
 
 <ClassComponent isMemoized={true} changeProps={true} />
 

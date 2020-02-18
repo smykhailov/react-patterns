@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {
-  useForceUpdate,
-  useForceValueUpdate
-} from '../../hooks/useForceUpdate';
+import { useForceValueUpdate } from '../../hooks/useForceUpdate';
 import RenderCounter from '../../components/RenderCounter';
 import {
   ChildClassComponent,

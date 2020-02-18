@@ -55,15 +55,15 @@ export const ChildFunctionComponent: FunctionComponent<TValue> = (
   );
 };
 
-export const ChildFunctionComponentMemoized: FunctionComponent<TValue> = React.memo(
-  (props: TValue) => {
-    return (
-      <RenderCounter color="blue">
-        Child Function Component <strong>Memoized</strong>: {props.value}
-      </RenderCounter>
-    );
-  }
-);
+export const ChildFunctionComponentMemoized: FunctionComponent<TValue> = React.memo<
+  FunctionComponent<TValue>
+>((props: TValue) => {
+  return (
+    <RenderCounter color="blue">
+      Child Function Component <strong>Memoized</strong>: {props.value}
+    </RenderCounter>
+  );
+});
 
 type TValue = {
   value: number;

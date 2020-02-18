@@ -2,7 +2,9 @@ import PureComponent from '../examples/components/PureComponent.tsx';
 
 ## Pure Component
 
-`React.Component` encapsulates [State and Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html).
+**Pure Component** - the [`React.PureComponent`](https://reactjs.org/docs/react-api.html#reactpurecomponent) is similar to the `React.Component`. The difference between them is that `React.Component` doesn’t implement `shouldComponentUpdate()`, but `React.PureComponent` implements it with a **shallow prop and state comparison**.
+
+If your React component’s `render()` function renders the same result given the same props and state, you can use `React.PureComponent` for a performance boost in some cases.
 
 ### Regular Component
 
@@ -27,7 +29,7 @@ export class ChildPureComponent extends PureComponent<TValue> {
 
 <PureComponent isMemoized={false} />
 
-and it re-renders as expected, when prop has been changes.
+and it re-renders as expected, when props have been changes.
 
 <PureComponent isMemoized={true} changeProps={true} />
 

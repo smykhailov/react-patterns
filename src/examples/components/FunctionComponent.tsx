@@ -1,42 +1,43 @@
 import React, { Component } from 'react';
-import { useForceUpdate } from '../../hooks/useForceUpdate';
+import { useForceValueUpdate } from '../../hooks/useForceUpdate';
 import RenderCounter from '../../components/RenderCounter';
 import {
   ChildFunctionComponent,
   ChildFunctionComponentMemoized
 } from './ChildComponents';
+import { TProps, TCompProps } from './common';
 
-class FunctionComponentContainer extends Component {
+class FunctionComponentContainer extends Component<TCompProps> {
   render() {
     return (
       <RenderCounter color="black">
         <p>Container</p>
-        <ChildFunctionComponent value={1} />
+        <ChildFunctionComponent value={this.props.value} />
       </RenderCounter>
     );
   }
 }
 
-class FunctionComponentContainerMemoized extends Component {
+class FunctionComponentContainerMemoized extends Component<TCompProps> {
   render() {
     return (
       <RenderCounter color="black">
         <p>Container</p>
-        <ChildFunctionComponentMemoized value={1} />
+        <ChildFunctionComponentMemoized value={this.props.value} />
       </RenderCounter>
     );
   }
 }
 
-export default (props: { isMemoized: boolean }) => {
-  const update = useForceUpdate();
+export default (props: TProps) => {
+  const [update, value] = useForceValueUpdate(props.changeProps);
 
   return (
     <>
       {props.isMemoized ? (
-        <FunctionComponentContainerMemoized />
+        <FunctionComponentContainerMemoized value={value} />
       ) : (
-        <FunctionComponentContainer />
+        <FunctionComponentContainer value={value} />
       )}
       <hr style={{ background: 'transparent' }} />
       <button onClick={update}>Render example</button>
