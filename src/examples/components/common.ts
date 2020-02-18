@@ -6,3 +6,7 @@ export type TProps = {
 export type TCompProps = {
   value: number;
 };
+
+export type TValue = {
+  value: number;
+};

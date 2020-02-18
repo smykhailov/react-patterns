@@ -1,5 +1,6 @@
 import React, { Component, FunctionComponent, PureComponent } from 'react';
 import RenderCounter from '../../components/RenderCounter';
+import { TValue } from './common';
 
 export class ChildClassComponent extends Component<TValue> {
   render() {
@@ -64,7 +65,3 @@ export const ChildFunctionComponentMemoized: FunctionComponent<TValue> = React.m
     </RenderCounter>
   );
 });
-
-type TValue = {
-  value: number;
-};
