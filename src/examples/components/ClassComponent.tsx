@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useForceValueUpdate } from '../../hooks/useForceUpdate';
 import RenderCounter from '../../components/RenderCounter';
 import {
@@ -7,7 +7,7 @@ import {
 } from './ChildComponents';
 import { TProps } from './common';
 
-export default (props: TProps) => {
+export const PlainPropsClassComponent: FC<TProps> = (props: TProps) => {
   const [update, value] = useForceValueUpdate(props.changeProps);
 
   return (

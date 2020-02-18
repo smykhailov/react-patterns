@@ -1,4 +1,4 @@
-import FunctionComponent from '../examples/components/FunctionComponent.tsx';
+import { PlainPropsFunctionComponent } from '../examples/components/FunctionComponent.tsx';
 
 ## Function Component
 
@@ -20,7 +20,7 @@ export const ChildFunctionComponent: FunctionComponent<TValue> = (
 };
 ```
 
-<FunctionComponent isMemoized={false} />
+<PlainPropsFunctionComponent isMemoized={false} />
 
 ### Solution: Memoize component with React.memo()
 
@@ -45,11 +45,11 @@ export const ChildFunctionComponentMemoized: FunctionComponent<TValue> = React.m
 });
 ```
 
-<FunctionComponent isMemoized={true} changeProps={false} />
+<PlainPropsFunctionComponent isMemoized={true} changeProps={false} />
 
 and it re-renders as expected, when props have been changes.
 
-<FunctionComponent isMemoized={true} changeProps={true} />
+<PlainPropsFunctionComponent isMemoized={true} changeProps={true} />
 
 // TODO: Add example with object props
 // TODO: Add example with useState

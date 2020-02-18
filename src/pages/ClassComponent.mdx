@@ -1,4 +1,4 @@
-import ClassComponent from '../examples/components/ClassComponent.tsx';
+import { PlainPropsClassComponent } from '../examples/components/ClassComponent.tsx';
 
 ## Class Component
 
@@ -20,7 +20,7 @@ export class ChildClassComponent extends Component<TValue> {
 }
 ```
 
-<ClassComponent isMemoized={false} />
+<PlainPropsClassComponent isMemoized={false} />
 
 ### Solution 1: Override `shouldComponentUpdate()` lifecycle method
 
@@ -45,11 +45,11 @@ export class ChildClassComponentMemoized extends Component<TValue> {
 }
 ```
 
-<ClassComponent isMemoized={true} changeProps={false} />
+<PlainPropsClassComponent isMemoized={true} changeProps={false} />
 
 and it re-renders as expected, when props have been changes.
 
-<ClassComponent isMemoized={true} changeProps={true} />
+<PlainPropsClassComponent isMemoized={true} changeProps={true} />
 
 ### Solution 2: Use Pure Component
 

@@ -1,4 +1,4 @@
-import PureComponent from '../examples/components/PureComponent.tsx';
+import { PlainPropsPureComponent } from '../examples/components/PureComponent.tsx';
 
 ## Pure Component
 
@@ -27,10 +27,10 @@ export class ChildPureComponent extends PureComponent<TValue> {
 }
 ```
 
-<PureComponent isMemoized={false} />
+<PlainPropsPureComponent isMemoized={false} />
 
 and it re-renders as expected, when props have been changes.
 
-<PureComponent isMemoized={true} changeProps={true} />
+<PlainPropsPureComponent isMemoized={true} changeProps={true} />
 
 // TODO: Add example with object props
