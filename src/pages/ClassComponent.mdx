@@ -1,4 +1,7 @@
-import { PlainPropsClassComponent } from '../examples/components/ClassComponent.tsx';
+import {
+  PlainPropsClassComponent,
+  ObjectPropsClassComponent
+} from '../examples/components/ClassComponent.tsx';
 
 ## Class Component
 
@@ -72,3 +75,7 @@ export class ChildPureComponent extends PureComponent<TValue> {
 ```
 
 // TODO: Add example with object props
+
+<ObjectPropsClassComponent isMemoized={false} />
+<ObjectPropsClassComponent isMemoized={true} changeProps={false} />
+<ObjectPropsClassComponent isMemoized={true} changeProps={true} />

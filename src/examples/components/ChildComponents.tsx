@@ -1,6 +1,6 @@
 import React, { Component, FunctionComponent, PureComponent } from 'react';
 import RenderCounter from '../../components/RenderCounter';
-import { TValue, TObjectValue } from './common';
+import { TValue, TObjectProps } from './common';
 
 export class ChildClassComponent extends Component<TValue> {
   render() {
@@ -27,26 +27,23 @@ export class ChildClassComponentMemoized extends Component<TValue> {
 }
 
 export class ChildClassComponentWithObjectProps extends Component<
-  TObjectValue
+  TObjectProps
 > {
   render() {
     return (
       <RenderCounter color="red">
         <span>Child Class Component:</span>
-        {`{ num: ${this.props.value.num}, str: ${this.props.value.str}`}
+        {`str: ${this.props.obj.str}`}
       </RenderCounter>
     );
   }
 }
 
 export class ChildClassComponentWithObjectPropsMemoized extends Component<
-  TObjectValue
+  TObjectProps
 > {
-  shouldComponentUpdate(nextProps: Readonly<TObjectValue>) {
-    return (
-      nextProps.value.num !== this.props.value.num ||
-      nextProps.value.str !== this.props.value.str
-    );
+  shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
+    return nextProps.obj.str !== this.props.obj.str;
   }
 
   render() {
@@ -55,7 +52,7 @@ export class ChildClassComponentWithObjectPropsMemoized extends Component<
         <span>
           Child Class Component <strong>Memoized</strong>:
         </span>
-        {`{ num: ${this.props.value.num}, str: ${this.props.value.str}`}
+        {`str: ${this.props.obj.str}`}
       </RenderCounter>
     );
   }
