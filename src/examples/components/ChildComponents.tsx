@@ -121,3 +121,23 @@ export const ChildFunctionComponentMemoized: FunctionComponent<TValue> = React.m
     </RenderCounter>
   );
 });
+
+export const ChildFunctionComponentWithObjectProps: FunctionComponent<TObjectProps> = (
+  props: TObjectProps
+) => {
+  return (
+    <RenderCounter color="blue">
+      Child Function Component: {props.obj.str}
+    </RenderCounter>
+  );
+};
+
+export const ChildFunctionComponentWithObjectPropsMemoized: FunctionComponent<TObjectProps> = React.memo<
+  FunctionComponent<TObjectProps>
+>((props: TObjectProps) => {
+  return (
+    <RenderCounter color="blue">
+      Child Function Component <strong>Memoized</strong>: {props.obj.str}
+    </RenderCounter>
+  );
+});
