@@ -74,6 +74,34 @@ export class ChildPureComponentMemoized extends PureComponent<TValue> {
   }
 }
 
+export class ChildPureComponentWithObjectProps extends PureComponent<
+  TObjectProps
+> {
+  render() {
+    return (
+      <RenderCounter color="green">
+        Child Pure Component: {this.props.obj.str}
+      </RenderCounter>
+    );
+  }
+}
+
+export class ChildPureComponentWithObjectPropsMemoized extends PureComponent<
+  TObjectProps
+> {
+  shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
+    return nextProps.obj.str !== this.props.obj.str;
+  }
+
+  render() {
+    return (
+      <RenderCounter color="green">
+        Child Pure Component <strong>Memoized</strong>: {this.props.obj.str}
+      </RenderCounter>
+    );
+  }
+}
+
 export const ChildFunctionComponent: FunctionComponent<TValue> = (
   props: TValue
 ) => {
