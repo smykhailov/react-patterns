@@ -32,8 +32,7 @@ export class ChildClassComponentWithObjectProps extends Component<
   render() {
     return (
       <RenderCounter color="red">
-        <span>Child Class Component:</span>
-        {`str: ${this.props.obj.str}`}
+        Child Class Component: {this.props.obj.str}
       </RenderCounter>
     );
   }
@@ -49,10 +48,7 @@ export class ChildClassComponentWithObjectPropsMemoized extends Component<
   render() {
     return (
       <RenderCounter color="red">
-        <span>
-          Child Class Component <strong>Memoized</strong>:
-        </span>
-        {`str: ${this.props.obj.str}`}
+        Child Class Component <strong>Memoized</strong>: {this.props.obj.str}
       </RenderCounter>
     );
   }

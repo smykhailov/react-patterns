@@ -1,8 +1,5 @@
-import React, { FC } from 'react';
-import {
-  useForceValueUpdate,
-  useForceObjectValueUpdate
-} from '../../hooks/useForceUpdate';
+import React, { FC, useState } from 'react';
+import { useForceValueUpdate } from '../../hooks/useForceUpdate';
 import RenderCounter from '../../components/RenderCounter';
 import {
   ChildClassComponent,
@@ -10,7 +7,7 @@ import {
   ChildClassComponentWithObjectPropsMemoized,
   ChildClassComponentWithObjectProps
 } from './ChildComponents';
-import { TProps } from './common';
+import { TProps, TObjectValue } from './common';
 
 export const PlainPropsClassComponent: FC<TProps> = (props: TProps) => {
   const [update, value] = useForceValueUpdate(props.changeProps);
@@ -30,7 +27,23 @@ export const PlainPropsClassComponent: FC<TProps> = (props: TProps) => {
 };
 
 export const ObjectPropsClassComponent: FC<TProps> = (props: TProps) => {
-  const [update, value] = useForceObjectValueUpdate(props.changeProps);
+  const initialValue: TObjectValue = {
+    num: 1,
+    str: 'hello'
+  };
+  const [value, setIt] = useState<TObjectValue>(initialValue);
+  const setNum = () =>
+    setIt(prevState => ({ num: prevState.num + 1, str: prevState.str }));
+  const setStr = () =>
+    setIt(prevState => ({
+      num: prevState.num,
+      str: `${initialValue.str} ${Math.round(Math.random() * 100)}`
+    }));
+
+  const update = props.changeProps ? setStr : setNum;
+  const note = props.changeProps
+    ? `str property changes: { str: ${value.str} }, num remains unchanged: { num: ${value.num} } `
+    : `num property changes: { num: ${value.num} }, str remains unchanged: { str: ${value.str} }`;
 
   return (
     <RenderCounter color="black">
@@ -41,7 +54,8 @@ export const ObjectPropsClassComponent: FC<TProps> = (props: TProps) => {
         <ChildClassComponentWithObjectProps obj={value} />
       )}
       <hr style={{ background: 'transparent' }} />
-      <button onClick={update}>Render example</button>
+      <button onClick={() => update()}>Render example</button>&nbsp;
+      <span>{note}</span>
     </RenderCounter>
   );
 };
