@@ -42,8 +42,8 @@ export const ObjectPropsClassComponent: FC<TProps> = (props: TProps) => {
 
   const update = props.changeProps ? setStr : setNum;
   const note = props.changeProps
-    ? `str property changes: { str: ${value.str} }, num remains unchanged: { num: ${value.num} } `
-    : `num property changes: { num: ${value.num} }, str remains unchanged: { str: ${value.str} }`;
+    ? `str property changes, num remains unchanged: { num: ${value.num}, str: ${value.str} }`
+    : `num property changes, str remains unchanged: { num: ${value.num}, str: ${value.str} }`;
 
   return (
     <RenderCounter color="black">
