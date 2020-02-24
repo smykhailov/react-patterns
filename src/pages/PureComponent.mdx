@@ -1,4 +1,7 @@
-import { PlainPropsPureComponent } from '../examples/components/PureComponent.tsx';
+import {
+  PlainPropsPureComponent,
+  ObjectPropsPureComponent
+} from '../examples/components/PureComponent.tsx';
 
 ## Pure Component
 
@@ -6,7 +9,7 @@ import { PlainPropsPureComponent } from '../examples/components/PureComponent.ts
 
 If your React component’s `render()` function renders the same result given the same props and state, you can use `React.PureComponent` for a performance boost in some cases.
 
-### Regular Component
+### Regular Component - Plain props
 
 `Pure` component implements `shouldComponentUpdate()` with a **shallow prop and state comparison**.
 That means no additional changes needed for the plain props.
@@ -33,4 +36,99 @@ and it re-renders as expected, when props have been changes.
 
 <PlainPropsPureComponent isMemoized={true} changeProps={true} />
 
-// TODO: Add example with object props
+---
+
+### Regular Component - Object props
+
+Passing objects as properties to the component are dangerous in terms of causing not wanted re-rendering.
+If component needs to work only with subset of the object properties and none of them being changed,
+the component still might re-render if any of the other property has changed.
+
+Also, even if developer created the object and passes it as a parameter to the component,
+it doesn't prevent other developers to add their own properties to the same object without
+even knowing that it might have negative impact on re-rendering some other not related component.
+
+```tsx
+export type TObjectProps = {
+  obj: TObjectValue;
+};
+
+export type TObjectValue = {
+  num: number;
+  str: string;
+};
+```
+
+The component takes object properties as defined above:
+
+```tsx
+export class ChildPureComponentWithObjectProps extends PureComponent<
+  TObjectProps
+> {
+  render() {
+    // The component only works with ✅ obj.str property and ignores ✅ obj.num
+    // If parent component doesn't change the ✅ obj.str, but changes ⛔ obj.num
+    // this component will still re-render 💣
+    return (
+      <RenderCounter color="red">
+        Child Pure Component: {this.props.obj.str}
+      </RenderCounter>
+    );
+  }
+}
+```
+
+When parent component changes `obj.num` and doesn't change `obj.str`, the component
+still re-renders. This happens, because `PureComponent` does a **shallow** comparison.
+
+<ObjectPropsPureComponent isMemoized={false} />
+
+### Solution 1: Use plain props
+
+The best solution is to use plain props and pass primitive values to the component.
+
+```tsx
+export class ChildPureComponentWithObjectProps extends PureComponent<{
+  str: string;
+}> {
+  render() {
+    // ✅ No object which can impact re-rendering
+    return (
+      <RenderCounter color="red">
+        Child Pure Component: {this.props.str}
+      </RenderCounter>
+    );
+  }
+}
+```
+
+### Solution 2: Override `shouldComponentUpdate()` lifecycle method
+
+When parent component changes `obj.num` and doesn't change `obj.str`, the component
+**does not** re-render.
+
+```tsx
+export class ChildPureComponentWithObjectPropsMemoized extends PureComponent<
+  TObjectProps
+> {
+  shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
+    // ✅ Make sure you cover scenario, when other developer
+    // could potentially add other fields to the props object
+    return nextProps.obj.str !== this.props.obj.str;
+  }
+
+  render() {
+    return (
+      <RenderCounter color="red">
+        Child Pure Component <strong>Memoized</strong>: {this.props.obj.str}
+      </RenderCounter>
+    );
+  }
+}
+```
+
+<ObjectPropsPureComponent isMemoized={true} changeProps={false} />
+
+but when parent component changes `obj.str` re-rendering happens, as expected:
+
+<ObjectPropsPureComponent isMemoized={true} changeProps={true} />

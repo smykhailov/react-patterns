@@ -7,9 +7,11 @@ export type TValue = {
   value: number;
 };
 
+export type TObjectProps = {
+  obj: TObjectValue;
+};
+
 export type TObjectValue = {
-  value: {
-    num: number;
-    str: string;
-  };
+  num: number;
+  str: string;
 };

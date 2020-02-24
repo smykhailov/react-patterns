@@ -1,6 +1,6 @@
 import React, { Component, FunctionComponent, PureComponent } from 'react';
 import RenderCounter from '../../components/RenderCounter';
-import { TValue, TObjectValue } from './common';
+import { TValue, TObjectProps } from './common';
 
 export class ChildClassComponent extends Component<TValue> {
   render() {
@@ -27,35 +27,28 @@ export class ChildClassComponentMemoized extends Component<TValue> {
 }
 
 export class ChildClassComponentWithObjectProps extends Component<
-  TObjectValue
+  TObjectProps
 > {
   render() {
     return (
       <RenderCounter color="red">
-        <span>Child Class Component:</span>
-        {`{ num: ${this.props.value.num}, str: ${this.props.value.str}`}
+        Child Class Component: {this.props.obj.str}
       </RenderCounter>
     );
   }
 }
 
 export class ChildClassComponentWithObjectPropsMemoized extends Component<
-  TObjectValue
+  TObjectProps
 > {
-  shouldComponentUpdate(nextProps: Readonly<TObjectValue>) {
-    return (
-      nextProps.value.num !== this.props.value.num ||
-      nextProps.value.str !== this.props.value.str
-    );
+  shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
+    return nextProps.obj.str !== this.props.obj.str;
   }
 
   render() {
     return (
       <RenderCounter color="red">
-        <span>
-          Child Class Component <strong>Memoized</strong>:
-        </span>
-        {`{ num: ${this.props.value.num}, str: ${this.props.value.str}`}
+        Child Class Component <strong>Memoized</strong>: {this.props.obj.str}
       </RenderCounter>
     );
   }
@@ -81,6 +74,34 @@ export class ChildPureComponentMemoized extends PureComponent<TValue> {
   }
 }
 
+export class ChildPureComponentWithObjectProps extends PureComponent<
+  TObjectProps
+> {
+  render() {
+    return (
+      <RenderCounter color="green">
+        Child Pure Component: {this.props.obj.str}
+      </RenderCounter>
+    );
+  }
+}
+
+export class ChildPureComponentWithObjectPropsMemoized extends PureComponent<
+  TObjectProps
+> {
+  shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
+    return nextProps.obj.str !== this.props.obj.str;
+  }
+
+  render() {
+    return (
+      <RenderCounter color="green">
+        Child Pure Component <strong>Memoized</strong>: {this.props.obj.str}
+      </RenderCounter>
+    );
+  }
+}
+
 export const ChildFunctionComponent: FunctionComponent<TValue> = (
   props: TValue
 ) => {
@@ -100,3 +121,28 @@ export const ChildFunctionComponentMemoized: FunctionComponent<TValue> = React.m
     </RenderCounter>
   );
 });
+
+export const ChildFunctionComponentWithObjectProps: FunctionComponent<TObjectProps> = (
+  props: TObjectProps
+) => {
+  return (
+    <RenderCounter color="blue">
+      Child Function Component: {props.obj.str}
+    </RenderCounter>
+  );
+};
+
+export const ChildFunctionComponentWithObjectPropsMemoized: FunctionComponent<TObjectProps> = React.memo<
+  FunctionComponent<TObjectProps>
+>(
+  (props: TObjectProps) => {
+    return (
+      <RenderCounter color="blue">
+        Child Function Component <strong>Memoized</strong>: {props.obj.str}
+      </RenderCounter>
+    );
+  },
+  (prevProps: Readonly<TObjectProps>, nextProps: Readonly<TObjectProps>) => {
+    return prevProps.obj.str === nextProps.obj.str;
+  }
+);
