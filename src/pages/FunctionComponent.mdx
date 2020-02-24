@@ -54,6 +54,8 @@ and it re-renders as expected, when props have been changes.
 
 <PlainPropsFunctionComponent isMemoized={true} changeProps={true} />
 
+---
+
 ### Regular Component - Object props
 
 Passing objects as properties to the component are dengerous in terms of causing not wanted re-rendering.
@@ -98,15 +100,45 @@ still re-renders.
 ### Solution 1: Use plain props
 
 The best solution is to use plain props and pass primitive values to the component.
+Don't forget to memoize the props value.
 
-<ObjectPropsFunctionComponent isMemoized={false} />
+```tsx
+// ✅ Memoize component to make sure it doesn't re-render, when props have been changed.
+export const ChildFunctionComponentMemoized: FunctionComponent<{
+  str: strings;
+}> = React.memo<FunctionComponent<{ str: strings }>>(
+  (props: { str: strings }) => {
+    return (
+      <RenderCounter color="blue">
+        Child Function Component <strong>Memoized</strong>: {props.str}
+      </RenderCounter>
+    );
+  }
+);
+```
 
-## Solution 2:
+## Solution 2: Add comparison function
+
+```tsx
+export const ChildFunctionComponentWithObjectPropsMemoized: FunctionComponent<TObjectProps> = React.memo<
+  FunctionComponent<TObjectProps>
+>(
+  (props: TObjectProps) => {
+    return (
+      <RenderCounter color="blue">
+        Child Function Component <strong>Memoized</strong>: {props.obj.str}
+      </RenderCounter>
+    );
+  },
+  // ✅ Add the properties comparison function.
+  (prevProps: Readonly<TObjectProps>, nextProps: Readonly<TObjectProps>) => {
+    return prevProps.obj.str === nextProps.obj.str;
+  }
+);
+```
 
 <ObjectPropsFunctionComponent isMemoized={true} changeProps={false} />
 
 but when parent component changes `obj.str` re-rendering happens, as expected:
 
 <ObjectPropsFunctionComponent isMemoized={true} changeProps={true} />
-
-// TODO: Add example with useRef

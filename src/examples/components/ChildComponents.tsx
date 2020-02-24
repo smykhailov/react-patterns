@@ -134,10 +134,15 @@ export const ChildFunctionComponentWithObjectProps: FunctionComponent<TObjectPro
 
 export const ChildFunctionComponentWithObjectPropsMemoized: FunctionComponent<TObjectProps> = React.memo<
   FunctionComponent<TObjectProps>
->((props: TObjectProps) => {
-  return (
-    <RenderCounter color="blue">
-      Child Function Component <strong>Memoized</strong>: {props.obj.str}
-    </RenderCounter>
-  );
-});
+>(
+  (props: TObjectProps) => {
+    return (
+      <RenderCounter color="blue">
+        Child Function Component <strong>Memoized</strong>: {props.obj.str}
+      </RenderCounter>
+    );
+  },
+  (prevProps: Readonly<TObjectProps>, nextProps: Readonly<TObjectProps>) => {
+    return prevProps.obj.str === nextProps.obj.str;
+  }
+);

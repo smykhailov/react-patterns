@@ -35,7 +35,8 @@ export class ChildPureComponent extends PureComponent<TValue> {
 and it re-renders as expected, when props have been changes.
 
 <PlainPropsPureComponent isMemoized={true} changeProps={true} />
-<hr />
+
+---
 
 ### Regular Component - Object props
 
@@ -61,7 +62,9 @@ export type TObjectValue = {
 The component takes object properties as defined above:
 
 ```tsx
-export class ChildPureComponentWithObjectProps extends Component<TObjectProps> {
+export class ChildPureComponentWithObjectProps extends PureComponent<
+  TObjectProps
+> {
   render() {
     // The component only works with ✅ obj.str property and ignores ✅ obj.num
     // If parent component doesn't change the ✅ obj.str, but changes ⛔ obj.num
@@ -76,7 +79,7 @@ export class ChildPureComponentWithObjectProps extends Component<TObjectProps> {
 ```
 
 When parent component changes `obj.num` and doesn't change `obj.str`, the component
-still re-renders.
+still re-renders. This happens, because `PureComponent` does a **shallow** comparison.
 
 <ObjectPropsPureComponent isMemoized={false} />
 
@@ -85,15 +88,9 @@ still re-renders.
 The best solution is to use plain props and pass primitive values to the component.
 
 ```tsx
-export class ChildPureComponentWithObjectProps extends Component<{
+export class ChildPureComponentWithObjectProps extends PureComponent<{
   str: string;
 }> {
-  // ❗ even is you use plain props, make sule you also override shouldComponentUpdate()
-  // othervise force update will trigger re-rendering.
-  shouldComponentUpdate(nextProps: Readonly<{ str: string }>) {
-    return nextProps.str !== this.props.str;
-  }
-
   render() {
     // ✅ No object which can impact re-rendering
     return (
@@ -111,7 +108,7 @@ When parent component changes `obj.num` and doesn't change `obj.str`, the compon
 **does not** re-render.
 
 ```tsx
-export class ChildPureComponentWithObjectPropsMemoized extends Component<
+export class ChildPureComponentWithObjectPropsMemoized extends PureComponent<
   TObjectProps
 > {
   shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
