@@ -7,9 +7,9 @@ import ClassComponent from './pages/ClassComponent.mdx';
 import PureComponent from './pages/PureComponent.mdx';
 import FunctionComponent from './pages/FunctionComponent.mdx';
 import Hooks from './pages/Hooks.mdx';
-import Functions from './pages/Functions.mdx';
 import Context from './pages/Context.mdx';
 import Immutability from './pages/Immutability.mdx';
+import Links from './pages/Links.mdx';
 
 const App: React.FC = () => {
   return (
@@ -45,10 +45,10 @@ const App: React.FC = () => {
                 <Link to="/context">Context</Link>
               </li>
               <li>
-                <Link to="/functions">Functions</Link>
+                <Link to="/immutability">Immutability</Link>
               </li>
               <li>
-                <Link to="/immutability">Immutability</Link>
+                <Link to="/links">Links</Link>
               </li>
             </ul>
           </aside>
@@ -64,8 +64,8 @@ const App: React.FC = () => {
                 />
                 <Route path="/hooks" component={Hooks} />
                 <Route path="/context" component={Context} />
-                <Route path="/functions" component={Functions} />
                 <Route path="/immutability" component={Immutability} />
+                <Route path="/links" component={Links} />
                 <Route exact path="/" component={Overview} />
               </Switch>
             </React.Suspense>
