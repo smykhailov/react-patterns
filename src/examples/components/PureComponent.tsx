@@ -4,8 +4,10 @@ import RenderCounter from '../../components/RenderCounter';
 import {
   ChildPureComponent,
   ChildPureComponentMemoized,
-  ChildPureComponentWithObjectPropsMemoized,
-  ChildPureComponentWithObjectProps
+  ChildPureComponentWithObjectPropsMemoizedStr,
+  ChildPureComponentWithObjectPropsMemoizedNum,
+  ChildPureComponentWithObjectPropsStr,
+  ChildPureComponentWithObjectPropsNum
 } from './ChildComponents';
 import { TProps, TObjectValue } from './common';
 
@@ -49,9 +51,15 @@ export const ObjectPropsPureComponent: FC<TProps> = (props: TProps) => {
     <RenderCounter color="black">
       <p>Container</p>
       {props.isMemoized ? (
-        <ChildPureComponentWithObjectPropsMemoized obj={value} />
+        <>
+          <ChildPureComponentWithObjectPropsMemoizedNum obj={value} />
+          <ChildPureComponentWithObjectPropsMemoizedStr obj={value} />
+        </>
       ) : (
-        <ChildPureComponentWithObjectProps obj={value} />
+        <>
+          <ChildPureComponentWithObjectPropsNum obj={value} />
+          <ChildPureComponentWithObjectPropsStr obj={value} />
+        </>
       )}
       <hr style={{ background: 'transparent' }} />
       <button onClick={() => update()}>Render example</button>&nbsp;
