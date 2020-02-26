@@ -176,3 +176,92 @@ export class ChildClassComponentWithObjectPropsMemoized extends Component<
 but when parent component changes `obj.str` re-rendering happens, as expected:
 
 <ObjectPropsClassComponent isMemoized={true} changeProps={true} />
+
+---
+
+### Regular Component - Method Component
+
+Method Component is a component which was implemented as a **method of Class Component**.
+Implementing components this way will cause several issues:
+
+- Hard to maintain, components become tightly coupled
+- Hard to control re-rendering conditions
+- Hard to reuse such components
+- Idiomatically React is functional and the approach is rather OOP
+- Potentially may cause hooks related bugs (https://kentcdodds.com/blog/dont-call-a-react-function-component)
+
+```tsx
+interface IProps {
+  str: string;
+  num: number;
+}
+class ClassComponent extends Component<IProps> {
+  firstComponent = () => {
+    return (
+      <RenderCounter color="blue">
+        Child Class Component: "{this.props.str}"
+      </RenderCounter>
+    );
+  };
+  secondComponent = () => {
+    return (
+      <RenderCounter color="green">
+        Child Class Component: {this.props.num}
+      </RenderCounter>
+    );
+  };
+
+  render() {
+    return (
+      <RenderCounter color="red">
+        {this.firstComponent()}
+        {this.secondComponent()}
+      </RenderCounter>
+    );
+  }
+}
+```
+
+### Solution: Separated Components
+
+Every component has its scope and depends only on required props.
+It allows us to easily refactor/remove a component and specify re-render conditions
+for each component separately using `React.PureComponent`, `shouldComponentUpdate()` or `React.memo()`
+
+```tsx
+interface IFirstComponentProps {
+  str: string;
+}
+class FirstComponent extends React.Component<IFirstComponentProps> {
+  render() {
+    const { str } = this.props;
+
+    return (
+      <RenderCounter color="blue">Child Class Component "{str}"</RenderCounter>
+    );
+  }
+}
+
+interface ISecondComponentProps {
+  num: number;
+}
+const SecondComponent = ({ num }: ISecondComponentProps) => (
+  <RenderCounter color="green">Child Class Component {num}</RenderCounter>
+);
+
+interface IProps {
+  str: string;
+  num: number;
+}
+class ClassComponent extends Component<IProps> {
+  render() {
+    const { num, str } = this.props;
+    return (
+      <RenderCounter color="red">
+        <FirstComponent str={str} />
+        <SecondComponent num={num} />
+      </RenderCounter>
+    );
+  }
+}
+```
