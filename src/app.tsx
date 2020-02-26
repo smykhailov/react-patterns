@@ -6,6 +6,7 @@ import Components from './pages/Components.mdx';
 import ClassComponent from './pages/ClassComponent.mdx';
 import PureComponent from './pages/PureComponent.mdx';
 import FunctionComponent from './pages/FunctionComponent.mdx';
+import MethodComponent from './pages/MethodComponent.mdx';
 import Hooks from './pages/Hooks.mdx';
 import Context from './pages/Context.mdx';
 import Immutability from './pages/Immutability.mdx';
@@ -36,6 +37,9 @@ const App: React.FC = () => {
                   <li>
                     <Link to="/function-component">Function Component</Link>
                   </li>
+                  <li>
+                    <Link to="/method-component">Method Component</Link>
+                  </li>
                 </ul>
               </li>
               <li>
@@ -62,6 +66,7 @@ const App: React.FC = () => {
                   path="/function-component"
                   component={FunctionComponent}
                 />
+                <Route path="/method-component" component={MethodComponent} />
                 <Route path="/hooks" component={Hooks} />
                 <Route path="/context" component={Context} />
                 <Route path="/immutability" component={Immutability} />
