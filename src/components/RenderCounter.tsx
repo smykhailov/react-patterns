@@ -6,7 +6,7 @@ type RenderCounterProps = {
   style?: React.CSSProperties;
 };
 
-const RenderCounter = React.memo<RenderCounterProps>(props => {
+const RenderCounter: React.FC<RenderCounterProps> = props => {
   const counter = React.useRef<number>(0);
   counter.current += 1;
 
@@ -39,6 +39,6 @@ const RenderCounter = React.memo<RenderCounterProps>(props => {
       {props.children}
     </div>
   );
-});
+};
 
 export default RenderCounter;
