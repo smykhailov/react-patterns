@@ -1,1 +1,20 @@
+import ProperUseCallback from '../examples/hooks/properUseCallback';
+import UselessUseCallback from '../examples/hooks/uselessUseCallback';
+
 ## Hooks
+
+### Use `useCallback()` hook carefully
+
+> In React code reviews, I see a lot of unnecessary usage of the `useCallback()` hook. Common misconception is that you need to use it for _any_ callback passed as a prop to a child component. However, not true: it's a perf optimization only for when child component is pure/memo'd.
+
+[https://twitter.com/spikebrehm/status/1233038597734965248](https://twitter.com/spikebrehm/status/1233038597734965248)
+
+`useCallback()` hooks allows to keep references to created functions inside components, but it should be used only for callbacks are passed to optimized child components that rely on reference equality to prevent unnecessary renders (e.g. `shouldComponentUpdate`, `React.memo()`).
+
+By default all React components do not use any update blockers, so there is no sense to force use `useCallback` for every callback in your application:
+
+<UselessUseCallback />
+
+But, it makes sence to pass memoized callbacks to components that handle reference equality:
+
+<ProperUseCallback />
