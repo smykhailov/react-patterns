@@ -31,6 +31,7 @@ main {
 footer {
   border-top: solid 1px silver;
   padding: 10px 20px;
+  display: flex;
 }
 
 h1 {
@@ -39,4 +40,12 @@ h1 {
 
 h2 {
   margin-top: 0.5rem;
+}
+
+.copyright {
+  flex: 1;
+}
+
+.git-hub img {
+  margin: 0;
 }

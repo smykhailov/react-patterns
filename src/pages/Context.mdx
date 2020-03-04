@@ -35,6 +35,8 @@ const Example = props => {
 
 <ContextUnmemoizedExample />
 
+> **Note**: if context value is constant, then having a static value is fine, no even need to use `useMemo()`.
+
 ### Solution 1: Use memoized context value
 
 If value is changing rarely is good option to memoize an object value with `useMemo()` hook.
