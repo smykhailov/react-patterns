@@ -18,9 +18,11 @@ for every callback in your application:
 
 <UselessUseCallback />
 
-But, it makes sence to pass memoized callbacks to components that handle reference equality:
+But, it makes sense to pass memoized callbacks to components that handle reference equality:
 
 <ProperUseCallback />
+
+### Children are out of your control
 
 On the other hand, if you **don't know what children component might be**, it is worth to wrap your functions
 with `useCallback()` hook. The operation itself is cheap and can prevent unwanted perf issues.
