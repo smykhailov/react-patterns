@@ -77,12 +77,14 @@ const App: React.FC = () => {
           </main>
         </div>
         <footer>
-          <div className="copyright">
-            <Link to="/">React Patterns</Link>
-          </div>
           <div className="git-hub">
             <a href="https://github.com/smykhailov/react-patterns">
               <img src="GitHub-Mark-32px.png" alt="GitHub Logo" />
+            </a>
+          </div>
+          <div className="copyright">
+            <a href="https://github.com/smykhailov/react-patterns">
+              React Patterns
             </a>
           </div>
         </footer>

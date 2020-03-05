@@ -44,6 +44,7 @@ h2 {
 
 .copyright {
   flex: 1;
+  padding-left: 10px;
 }
 
 .git-hub img {
