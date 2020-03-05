@@ -78,7 +78,7 @@ const App: React.FC = () => {
         </div>
         <footer>
           <div className="copyright">
-            &copy; 2019, Sergii Mykhailov. <Link to="/">React Patterns</Link>
+            <Link to="/">React Patterns</Link>
           </div>
           <div className="git-hub">
             <a href="https://github.com/smykhailov/react-patterns">
