@@ -21,15 +21,34 @@ const Example = React.memo(props => {
 });
 ```
 
-For example the code below will trigger rerender always as `context` object will be always newly created.
+> Examples and info is taken from the official [ReactJS](https://reactjs.org/docs/context.html#caveats) documentation.
+
+Context uses reference identity to determine when to re-render, there are some gotchas that could trigger
+unintentional renders in consumers when a provider’s parent re-renders.
+For example, the code below will re-render all consumers every time the Provider re-renders
+because a new object is always created for value:
 
 ```jsx
 const Example = props => {
   const { children } = props;
-  // ⛔ ({ value: 1 } === { value: 1 }) is false, so reference is different
-  const context = { value: 1 };
 
-  return <Provider value={context}>{children}</Provider>;
+  return ()
+    // ⛔ ({ value: 1 } === { value: 1 }) is false, so reference is different
+    <Provider value={{ value: 1 }}>
+      {children}
+    </Provider>
+  );
+};
+```
+
+To get around this, lift the value into the parent’s state:
+
+```tsx
+const Example = props => {
+  const { children } = props;
+  const [value] = useState(1);
+
+  return <Provider value={{ value: value }}>{children}</Provider>;
 };
 ```
 
@@ -119,38 +138,3 @@ const Example = React.memo(props => {
 
 There is also a lot of custom context/global state implementations, comparison
 for Concurrent mode [available there](https://github.com/dai-shi/will-this-react-global-state-work-in-concurrent-mode).
-
-### Don't create objects directly in props of Provider
-
-> Examples and info is taken from the official [ReactJS](https://reactjs.org/docs/context.html#caveats) documentation.
-
-Context uses reference identity to determine when to re-render, there are some gotchas that could trigger
-unintentional renders in consumers when a provider’s parent re-renders.
-For example, the code below will re-render all consumers every time the Provider re-renders
-because a new object is always created for value:
-
-```tsx
-const App = () => {
-  return (
-    <Provider value={{ something: 'something' }}>
-      <SomeChildComponent />
-    </Provider>
-  );
-};
-```
-
-To get around this, lift the value into the parent’s state:
-
-```tsx
-const App = () => {
-  const [value] = useState('something');
-
-  return (
-    <Provider value={{ something: value }}>
-      <SomeChildComponent />
-    </Provider>
-  );
-};
-```
-
-in this case reference remains the same and consumers will not re-render if provider re-renders.
