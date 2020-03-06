@@ -29,27 +29,30 @@ For example, the code below will re-render all consumers every time the Provider
 because a new object is always created for value:
 
 ```jsx
-const Example = props => {
-  const { children } = props;
+class Example extends React.Component {
+  state = { value: 1 };
 
-  return ()
+  render() {
+    const { children } = this.props;
+
     // ⛔ ({ value: 1 } === { value: 1 }) is false, so reference is different
-    <Provider value={{ value: 1 }}>
-      {children}
-    </Provider>
-  );
-};
+    return <Provider value={{ value: this.state.value }}>{children}</Provider>;
+  }
+}
 ```
 
 To get around this, lift the value into the parent’s state:
 
 ```tsx
-const Example = props => {
-  const { children } = props;
-  const [value] = useState(1);
+class Example extends React.Component {
+  state = { value: 1 };
 
-  return <Provider value={{ value: value }}>{children}</Provider>;
-};
+  render() {
+    const { children } = this.props;
+
+    return <Provider value={this.state.value}>{children}</Provider>;
+  }
+}
 ```
 
 <ContextUnmemoizedExample />
