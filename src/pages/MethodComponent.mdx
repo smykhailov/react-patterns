@@ -2,6 +2,10 @@ import { Wrapper } from '../examples/components/MethodComponent.tsx';
 
 ## Method Component
 
+> Note, the `Method Component` term is not an industry defined term.
+> That's how we call it describe the component which get returned from
+> the method of class.
+
 Method Component is a component which was implemented as a **method of Class Component**.
 Implementing components this way will cause several issues:
 
@@ -11,10 +15,9 @@ Implementing components this way will cause several issues:
 - Idiomatically React is functional and the approach is rather OOP
 - Potentially may cause hooks related bugs (https://kentcdodds.com/blog/dont-call-a-react-function-component)
 
-> Despite on the fact that [React Tutorials](https://reactjs.org/tutorial/tutorial.html) in their
-> examples [illustrate this approach](https://reactjs.org/tutorial/tutorial.html#passing-data-through-props)
-> in the `renderSquare()` method it is not recommended in the production code, because of the reasons
-> described on this page.
+> [React Tutorials](https://reactjs.org/tutorial/tutorial.html) [illustrate this approach](https://reactjs.org/tutorial/tutorial.html#passing-data-through-props)
+> in the examples with the `renderSquare()` method. We recommended to use it only if there is strong use case for such a usage.
+> Otherwise try to avoid this approach, because of the reasons described in this article.
 > React Tutorials mentions that it should be factored out in the [Wrapping Up](https://reactjs.org/tutorial/tutorial.html#wrapping-up) section.
 
 ```tsx
