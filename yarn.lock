@@ -845,6 +845,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.7.6":
+  version "7.8.7"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.8.7.tgz#8fefce9802db54881ba59f90bb28719b4996324d"
+  integrity sha512-+AATMUFppJDw6aiR5NVPHqIQBlV/Pj8wY/EZH+lmvRdUo9xBaz/rF3alAwFJQavvKfeOlPE7oaaDHVbcySbCsg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.4.0", "@babel/template@^7.7.4":
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.7.4.tgz#428a7d9eecffe27deac0a98e23bf8e3675d2a77b"
@@ -905,6 +912,13 @@
 "@csstools/normalize.css@^10.1.0":
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
+
+"@fluentui/react-context-selector@^0.46.0":
+  version "0.46.0"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-context-selector/-/react-context-selector-0.46.0.tgz#2287b3f026a8c148faec3badb2061d07bdf88009"
+  integrity sha512-MXyJZZZGREhTQYCZ+0+k8dK2HbOMWnWm6lM//Rzn6UQSRuWob3jawK8Our/ZBtFXolfhs1xUX9BSuWLVyZJFzg==
+  dependencies:
+    "@babel/runtime" "^7.7.6"
 
 "@hapi/address@2.x.x":
   version "2.1.4"
@@ -7986,6 +8000,11 @@ regenerator-runtime@^0.13.2, regenerator-runtime@^0.13.3:
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
 
+regenerator-runtime@^0.13.4:
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.4.tgz#e96bf612a3362d12bb69f7e8f74ffeab25c7ac91"
+  integrity sha512-plpwicqEzfEyTQohIKktWigcLzmNStMGwbOUbykx51/29Z3JOGYldaaNGK7ngNXV+UcoqvIMmloZ48Sr74sd+g==
+
 regenerator-transform@^0.14.0:
   version "0.14.1"
   resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.14.1.tgz#3b2fce4e1ab7732c08f665dfdb314749c7ddd2fb"
@@ -9462,11 +9481,6 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
-
-use-context-selector@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/use-context-selector/-/use-context-selector-1.0.1.tgz#e179173c6e8f2d0a552ff90e9c1ad87581243913"
-  integrity sha512-1kqu7JVg5n0wXAAYyPVTXMumqPMQw1SLCqAks8/v43AvVlWh/JERaMQA0OUdi3FxbVMK7PYxY5vC7FtH/51hBA==
 
 use-immer@^0.3.5:
   version "0.3.5"

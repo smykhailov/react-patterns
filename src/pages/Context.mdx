@@ -1,7 +1,8 @@
+import ContextChangedBits from '../examples/context/ContextChangedBits';
 import ContextMemoized from '../examples/context/ContextMemoized';
 import ContextSeparate from '../examples/context/ContextSeparate';
-import ContextSelectorExample from '../examples/context/ContextSelector';
-import ContextUnmemoizedExample from '../examples/context/ContextUnmemoized';
+import ContextSelector from '../examples/context/ContextSelector';
+import ContextUnmemoized from '../examples/context/ContextUnmemoized';
 
 ## Context
 
@@ -55,7 +56,7 @@ class Example extends React.Component {
 }
 ```
 
-<ContextUnmemoizedExample />
+<ContextUnmemoized />
 
 > **Note**: if context value is constant, then having a static value is fine, no even need to use `useMemo()`.
 
@@ -75,19 +76,11 @@ const Example = props => {
 
 <ContextMemoized />
 
-For class components you can use `this.state`:
-
-```jsx
-class Example extends React.Component {
-  render() {
-    return <Provider value={this.state}>{children}</Provider>;
-  }
-}
-```
+For class components you can use `this.state` as was mentioned above.
 
 ### Solution 2: Use separate contexts
 
-This trick was [described](https://kentcdodds.com/blog/how-to-use-react-context-effectively) by Kent Dodds. Idea is to pass plain/memoized
+This trick was [described](https://kentcdodds.com/blog/how-to-use-react-context-effectively) by Kent Dodds. The idea is to pass plain/memoized
 values in separate contexts to avoid useless notifications to subscribers.
 
 ```jsx
@@ -108,9 +101,33 @@ const Example = props => {
 
 <ContextSeparate />
 
-### Solution 3: Experimental bits API
+### Solution 3: Use context selectors
 
-React provides an expiremental API with `calculateChangedBits` & `calculateChangedBits`:
+[@fluentui/react-context-selector](https://www.npmjs.com/package/@fluentui/react-context-selector) implements [context selectors RFC](https://github.com/reactjs/rfcs/pull/119). This package provides `useContextSelector()` hook allows to subscribe only to required updates.
+
+```jsx
+const App = props => {
+  const { children } = props;
+  const { foo: 1, bar: 2 } = value;
+
+  return (
+    <Context.Provider value={value}>{children}</Context.Provider>
+  );
+};
+
+const Consumer = props => {
+  // ✅ Only updates that satisfy the selector will trigger the component's rerender
+  const foo = useContextSelector(Context, v => v.foo);
+
+  // do other things...
+}
+```
+
+<ContextSelector />
+
+### Solution 4: Experimental bits API
+
+React provides an experimental API with `calculateChangedBits` & `calculateChangedBits`:
 
 ```jsx
 function createContext<T>(defaultValue: T, calculateChangedBits?: (prev: T, next: T) => number): Context<T>;
@@ -119,25 +136,46 @@ function useContext<T>(context: Context<T>, observedBits?: number|boolean): T;
 
 Which allows to change default behavior of Context API and avoid useless rerenders. As it's experimental there are no official docs yet, check [this article](https://medium.com/@leonardobrunolima/react-tips-context-api-performance-considerations-d964f3ad3087) to get more details.
 
-`changedBits === 0` has a [special handling](https://github.com/facebook/react/blob/9b0bd43550206e04bfe9ca695e5981eff0e2d03f/packages/react-reconciler/src/ReactFiberBeginWork.js#L2304) in `react-reconciler`, so the simplest and interesting trick is to disable any consumer's updates:
+`changedBits === 0` has a [special handling](https://github.com/facebook/react/blob/9b0bd43550206e04bfe9ca695e5981eff0e2d03f/packages/react-reconciler/src/ReactFiberBeginWork.js#L2304) in `react-reconciler`, so one of the most interesting tricks is to disable any consumer's updates:
 
 ```jsx
 // ☠️ Even is `value` will change updates will be silenced
 const Context = React.createContext(value, () => 0);
 ```
 
-[`use-context-selector`](https://www.npmjs.com/package/use-context-selector) uses `changedBits === 0` to implement selector-like API for hooks which currently stays as an [open RFC](https://github.com/reactjs/rfcs/pull/119).
+`changedBits` API cannot be used with `useContext()` hook as will produce a warning:
+
+> Warning: useContext() second argument is reserved for future use in React. Passing it is not supported. You passed: 1.
+
+The actual usage of `changedBits` is more complex:
 
 ```jsx
-const Example = React.memo(props => {
-  // ✅ Updates of other context properties will be ignored
-  const locale = useContextSelector(LocaleContext, v => v.locale);
+const Context = React.createContext(value, (prev, next) => {
+  // 💡 This context handles only changes on `value.foo`
+  if (prev.foo !== next.foo) {
+    return 1;
+  }
 
-  return <div>Current locale is {locale}.</div>;
+  // 🛎️ Will silence all other updates, i.e. they will not be propogated to context consumers
+  return 0;
 });
+
+const App = props => {
+  const { children } = props;
+  const { foo: 1, bar: 2 } = value;
+
+  return (
+    <Context.Provider value={value}>{children}</Context.Provider>
+  );
+};
+
+const Consumer = props => {
+  // 🧱 Listen only for `1` bit changes
+  return <Context.Consumer unstable_observedBits={1}>{value => null}</<Context.Consumer>
+}
 ```
 
-<ContextSelectorExample />
+<ContextChangedBits />
 
 There is also a lot of custom context/global state implementations, comparison
 for Concurrent mode [available there](https://github.com/dai-shi/will-this-react-global-state-work-in-concurrent-mode).

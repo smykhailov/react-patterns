@@ -1,14 +1,18 @@
-import {
-  createContext,
-  useContextSelector
-} from '@fluentui/react-context-selector';
 import React from 'react';
-
 import RenderCounter from '../../components/RenderCounter';
 
 type ContextValue = { foo: number; bar: number };
 
-const Context = createContext<ContextValue>({ foo: 0, bar: 0 });
+const Context = React.createContext<ContextValue>(
+  { foo: 0, bar: 0 },
+  (prev, next) => {
+    if (prev.foo !== next.foo) {
+      return 1;
+    }
+
+    return 0;
+  }
+);
 
 const Provider: React.FC<{ foo: number; bar: number }> = props => {
   const { foo, bar } = props;
@@ -25,31 +29,31 @@ const Provider: React.FC<{ foo: number; bar: number }> = props => {
   );
 };
 
-const ConsumerFoo: React.FC = React.memo(() => {
-  const value = useContextSelector(Context, v => v.foo);
+const ConsumerFoo: React.FC = React.memo(() => (
+  <Context.Consumer unstable_observedBits={1}>
+    {value => (
+      <RenderCounter color="green">
+        <code>
+          ConsumerFoo (listens for <code>foo</code>):{' '}
+          {JSON.stringify(value, null, 2)}
+        </code>
+      </RenderCounter>
+    )}
+  </Context.Consumer>
+));
 
-  return (
-    <RenderCounter color="green">
-      <code>
-        ConsumerFoo (listens for <code>foo</code>):{' '}
-        {JSON.stringify(value, null, 2)}
-      </code>
-    </RenderCounter>
-  );
-});
-
-const ConsumerBar: React.FC = React.memo(() => {
-  const value = useContextSelector(Context, v => v.bar);
-
-  return (
-    <RenderCounter color="red">
-      <code>
-        ConsumerBar (listens for <code>bar</code>):{' '}
-        {JSON.stringify(value, null, 2)}
-      </code>
-    </RenderCounter>
-  );
-});
+const ConsumerBar: React.FC = React.memo(() => (
+  <Context.Consumer unstable_observedBits={2}>
+    {value => (
+      <RenderCounter color="red">
+        <code>
+          ConsumerBar (listens for <code>bar</code>):{' '}
+          {JSON.stringify(value, null, 2)}
+        </code>
+      </RenderCounter>
+    )}
+  </Context.Consumer>
+));
 
 export default () => {
   const [count, setCount] = React.useState(0);
