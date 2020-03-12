@@ -134,7 +134,7 @@ function createContext<T>(defaultValue: T, calculateChangedBits?: (prev: T, next
 function useContext<T>(context: Context<T>, observedBits?: number|boolean): T;
 ```
 
-Which allows to change default behavior of Context API and avoid useless rerenders. As it's experimental there are no official docs yet, check [this article](https://medium.com/@leonardobrunolima/react-tips-context-api-performance-considerations-d964f3ad3087) to get more details. TypeScript typings for this feature are also [not enabled](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/5a59a59b867088e492e59e9f52ec681a9ff5b7a2/types/react/index.d.ts#L872).
+Which allows to change default behavior of Context API and avoid useless rerenders. As it's experimental there are no official docs yet, check [this article](https://medium.com/@leonardobrunolima/react-tips-context-api-performance-considerations-d964f3ad3087) to get more details.
 
 `changedBits === 0` has a [special handling](https://github.com/facebook/react/blob/9b0bd43550206e04bfe9ca695e5981eff0e2d03f/packages/react-reconciler/src/ReactFiberBeginWork.js#L2304) in `react-reconciler`, so one of the most interesting tricks is to disable any consumer's updates:
 
@@ -142,6 +142,10 @@ Which allows to change default behavior of Context API and avoid useless rerende
 // ☠️ Even is `value` will change updates will be silenced
 const Context = React.createContext(value, () => 0);
 ```
+
+`changedBits` API cannot be used with `useContext()` hook as will produce a warning:
+
+> Warning: useContext() second argument is reserved for future use in React. Passing it is not supported. You passed: 1.
 
 The actual usage of `changedBits` is more complex:
 
@@ -167,9 +171,7 @@ const App = props => {
 
 const Consumer = props => {
   // 🧱 Listen only for `1` bit changes
-  const foo = React.useContext(Context, 1);
-
-  // do other things...
+  return <Context.Consumer unstable_observedBits={1}>{value => null}</<Context.Consumer>
 }
 ```
 

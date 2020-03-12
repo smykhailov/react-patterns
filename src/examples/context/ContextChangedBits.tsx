@@ -29,33 +29,31 @@ const Provider: React.FC<{ foo: number; bar: number }> = props => {
   );
 };
 
-const ConsumerFoo: React.FC = React.memo(() => {
-  // @ts-ignore
-  const value = React.useContext(Context, 1);
+const ConsumerFoo: React.FC = React.memo(() => (
+  <Context.Consumer unstable_observedBits={1}>
+    {value => (
+      <RenderCounter color="green">
+        <code>
+          ConsumerFoo (listens for <code>foo</code>):{' '}
+          {JSON.stringify(value, null, 2)}
+        </code>
+      </RenderCounter>
+    )}
+  </Context.Consumer>
+));
 
-  return (
-    <RenderCounter color="green">
-      <code>
-        ConsumerFoo (listens for <code>foo</code>):{' '}
-        {JSON.stringify(value, null, 2)}
-      </code>
-    </RenderCounter>
-  );
-});
-
-const ConsumerBar: React.FC = React.memo(() => {
-  // @ts-ignore
-  const value = React.useContext(Context, 2);
-
-  return (
-    <RenderCounter color="red">
-      <code>
-        ConsumerBar (listens for <code>bar</code>):{' '}
-        {JSON.stringify(value, null, 2)}
-      </code>
-    </RenderCounter>
-  );
-});
+const ConsumerBar: React.FC = React.memo(() => (
+  <Context.Consumer unstable_observedBits={2}>
+    {value => (
+      <RenderCounter color="red">
+        <code>
+          ConsumerBar (listens for <code>bar</code>):{' '}
+          {JSON.stringify(value, null, 2)}
+        </code>
+      </RenderCounter>
+    )}
+  </Context.Consumer>
+));
 
 export default () => {
   const [count, setCount] = React.useState(0);
