@@ -1,14 +1,18 @@
-import {
-  createContext,
-  useContextSelector
-} from '@fluentui/react-context-selector';
 import React from 'react';
-
 import RenderCounter from '../../components/RenderCounter';
 
 type ContextValue = { foo: number; bar: number };
 
-const Context = createContext<ContextValue>({ foo: 0, bar: 0 });
+const Context = React.createContext<ContextValue>(
+  { foo: 0, bar: 0 },
+  (prev, next) => {
+    if (prev.foo !== next.foo) {
+      return 1;
+    }
+
+    return 0;
+  }
+);
 
 const Provider: React.FC<{ foo: number; bar: number }> = props => {
   const { foo, bar } = props;
@@ -26,7 +30,8 @@ const Provider: React.FC<{ foo: number; bar: number }> = props => {
 };
 
 const ConsumerFoo: React.FC = React.memo(() => {
-  const value = useContextSelector(Context, v => v.foo);
+  // @ts-ignore
+  const value = React.useContext(Context, 1);
 
   return (
     <RenderCounter color="green">
@@ -39,7 +44,8 @@ const ConsumerFoo: React.FC = React.memo(() => {
 });
 
 const ConsumerBar: React.FC = React.memo(() => {
-  const value = useContextSelector(Context, v => v.bar);
+  // @ts-ignore
+  const value = React.useContext(Context, 2);
 
   return (
     <RenderCounter color="red">
