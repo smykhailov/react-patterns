@@ -2,38 +2,40 @@ import React, { useEffect, FC, useState } from 'react';
 import { sleep } from '../../core/utils';
 import RenderCounter from '../../components/RenderCounter';
 
-export const UseEffectAsyncExample: FC = () => {
-  let [count, setCount] = useState(0);
+type TData = { updatedData: string };
+
+const UseEffectAsync: FC<TData> = (props: TData) => {
+  let [data, setData] = useState('initial data');
 
   useEffect(() => {
     const asyncOp = async () => {
-      await sleep(5 * 1000);
+      await sleep(10 * 1000);
 
-      setCount(count++);
+      setData(props.updatedData);
     };
     asyncOp();
-  }, [count]);
+  }, [props.updatedData]);
 
   return (
-    <RenderCounter color="black">
-      <div>Hello: {count}</div>
+    <RenderCounter color="red">
+      <div>{data}</div>
     </RenderCounter>
   );
 };
 
-export const UseEffectAsyncWithCleanupExample: FC = () => {
-  let [count, setCount] = useState(0);
+const UseEffectAsyncWithCleanup: FC<TData> = (props: TData) => {
+  let [data, setData] = useState('initial data');
 
   useEffect(() => {
     let cancel = false;
     const asyncOp = async () => {
-      await sleep(20 * 1000);
+      await sleep(10 * 1000);
 
       if (cancel) {
         return;
       }
 
-      setCount(count++);
+      setData(props.updatedData);
     };
 
     asyncOp();
@@ -41,11 +43,51 @@ export const UseEffectAsyncWithCleanupExample: FC = () => {
     return () => {
       cancel = true;
     };
-  }, [count]);
+  }, [props.updatedData]);
+
+  return (
+    <RenderCounter color="green">
+      <div>{data}</div>
+    </RenderCounter>
+  );
+};
+
+export const UseEffectAsyncExample: FC = () => {
+  let [counter, setCounter] = useState(1);
+  const [data, setData] = useState('updated data');
 
   return (
     <RenderCounter color="black">
-      <div>Hello: {count}</div>
+      <UseEffectAsync updatedData={data} />
+
+      <button
+        onClick={() => {
+          setCounter(counter++);
+          setData(`updated data ${counter}`);
+        }}
+      >
+        Re-render component
+      </button>
+    </RenderCounter>
+  );
+};
+
+export const UseEffectAsyncWithCleanupExample: FC = () => {
+  let [counter, setCounter] = useState(1);
+  const [data, setData] = useState('updated data');
+
+  return (
+    <RenderCounter color="black">
+      <UseEffectAsyncWithCleanup updatedData={data} />
+
+      <button
+        onClick={() => {
+          setCounter(counter++);
+          setData(`updated data ${counter}`);
+        }}
+      >
+        Re-render component
+      </button>
     </RenderCounter>
   );
 };
