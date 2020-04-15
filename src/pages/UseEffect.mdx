@@ -17,7 +17,10 @@ const UseEffectAsync: FC<TData> = (props: TData) => {
 
       setData(props.updatedData);
     };
-    asyncOp();
+
+    asyncOp()
+      .then(...)      // ❗ Promises must be resolved properly
+      .catch(...);    // ❗ Don't forget to handle exceptions
   }, [props.updatedData]);
 
   return (
@@ -51,7 +54,9 @@ const UseEffectAsyncWithCleanup: FC<TData> = (props: TData) => {
       setData(props.updatedData);
     };
 
-    asyncOp();
+    asyncOp()
+      .then(...)      // ❗ Promises must be resolved properly
+      .catch(...);    // ❗ Don't forget to handle exceptions
 
     return () => {
       cancel = true;
