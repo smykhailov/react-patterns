@@ -13,6 +13,7 @@ import UseEffectHook from './pages/UseEffect.mdx';
 import Context from './pages/Context.mdx';
 import Immutability from './pages/Immutability.mdx';
 import Links from './pages/Links.mdx';
+import GenericHookGuides from './pages/GenericHookGuides.mdx';
 
 const App: React.FC = () => {
   return (
@@ -48,6 +49,9 @@ const App: React.FC = () => {
                 <Link to="/hooks">Hooks</Link>
                 <ul>
                   <li>
+                    <Link to="generic-hook-guides">Generic Guide</Link>
+                  </li>
+                  <li>
                     <Link to="/hook-use-callback">useCallback</Link>
                   </li>
                   <li>
@@ -78,6 +82,10 @@ const App: React.FC = () => {
                 />
                 <Route path="/method-component" component={MethodComponent} />
                 <Route path="/hooks" component={Hooks} />
+                <Route
+                  path="/generic-hook-guides"
+                  component={GenericHookGuides}
+                />
                 <Route path="/hook-use-callback" component={UseCallbackHook} />
                 <Route path="/hook-use-effect" component={UseEffectHook} />
                 <Route path="/context" component={Context} />
