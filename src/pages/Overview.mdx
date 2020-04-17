@@ -4,3 +4,9 @@ The project is created to experiment with different approaches to use
 React and create a list of do's, dont's, problematic approaches and best
 practice in terms of performance, readability, extensibility and
 maintainability.
+
+### `React.memo`
+
+Using `React.memo` is useful for cases where you have a component that should be **re-rendered rarely**,
+but is expensive to render. There is still some cost of using `React.memo` and it might be problematic,
+if abused in a large app.
