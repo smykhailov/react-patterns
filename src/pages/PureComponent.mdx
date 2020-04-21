@@ -1,6 +1,6 @@
 import {
   PlainPropsPureComponent,
-  ObjectPropsPureComponent
+  ObjectPropsPureComponent,
 } from '../examples/components/PureComponent.tsx';
 
 ## Pure Component
@@ -9,7 +9,7 @@ import {
 
 If your React component’s `render()` function renders the same result given the same props and state, you can use `React.PureComponent` for a performance boost in some cases.
 
-### Regular Component - Plain props
+### Pure Component - Plain props
 
 `Pure` component implements `shouldComponentUpdate()` with a **shallow prop and state comparison**.
 That means no additional changes needed for the plain props.
@@ -38,7 +38,7 @@ and it re-renders as expected, when props have been changes.
 
 ---
 
-### Regular Component - Object props
+### Pure Component - Object props
 
 Passing objects as properties to the component are dangerous in terms of causing not wanted re-rendering.
 If component needs to work only with subset of the object properties and none of them being changed,
@@ -83,7 +83,10 @@ still re-renders. This happens, because `PureComponent` does a **shallow** compa
 
 <ObjectPropsPureComponent isMemoized={false} />
 
-### Solution 1: Use plain props
+> Note: the drawback of `PureComponent` with object props is, that if you change a value inside the object
+> and not change the instance, the component may not re-render because it fails the shallow checks.
+
+### Solution: Use plain props
 
 The best solution is to use plain props and pass primitive values to the component.
 
@@ -101,34 +104,3 @@ export class ChildPureComponentWithObjectProps extends PureComponent<{
   }
 }
 ```
-
-### Solution 2: Override `shouldComponentUpdate()` lifecycle method
-
-When parent component changes `obj.num` and doesn't change `obj.str`, the component
-**does not** re-render.
-
-```tsx
-export class ChildPureComponentWithObjectPropsMemoized extends PureComponent<
-  TObjectProps
-> {
-  shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
-    // ✅ Make sure you cover scenario, when other developer
-    // could potentially add other fields to the props object
-    return nextProps.obj.str !== this.props.obj.str;
-  }
-
-  render() {
-    return (
-      <RenderCounter color="red">
-        Child Pure Component <strong>Memoized</strong>: {this.props.obj.str}
-      </RenderCounter>
-    );
-  }
-}
-```
-
-<ObjectPropsPureComponent isMemoized={true} changeProps={false} />
-
-but when parent component changes `obj.str` re-rendering happens, as expected:
-
-<ObjectPropsPureComponent isMemoized={true} changeProps={true} />
