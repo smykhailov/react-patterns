@@ -117,8 +117,7 @@ export class ChildClassComponentWithObjectProps extends Component<
 ```
 
 When parent component changes `obj.num` and doesn't change `obj.str`, the component
-still re-renders. This will only be true if the actual instance changed,
-because `PureComponent` checks the instance itself.
+still re-renders.
 
 <ObjectPropsClassComponent isMemoized={false} />
 
