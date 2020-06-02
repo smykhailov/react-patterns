@@ -15,6 +15,7 @@ import Context from './pages/Context.mdx';
 import Immutability from './pages/Immutability.mdx';
 import Links from './pages/Links.mdx';
 import GenericHookGuides from './pages/GenericHookGuides.mdx';
+import HooksRenderProps from './pages/HooksRenderProps.mdx';
 
 const App: React.FC = () => {
   return (
@@ -64,6 +65,9 @@ const App: React.FC = () => {
                 </ul>
               </li>
               <li>
+                <Link to="/hooks-render-props">React hooks + RenderProps</Link>
+              </li>
+              <li>
                 <Link to="/context">Context</Link>
               </li>
               <li>
@@ -93,6 +97,10 @@ const App: React.FC = () => {
                 <Route path="/hook-use-state" component={UseStateHook} />
                 <Route path="/hook-use-callback" component={UseCallbackHook} />
                 <Route path="/hook-use-effect" component={UseEffectHook} />
+                <Route
+                  path="/hooks-render-props"
+                  component={HooksRenderProps}
+                />
                 <Route path="/context" component={Context} />
                 <Route path="/immutability" component={Immutability} />
                 <Route path="/links" component={Links} />
