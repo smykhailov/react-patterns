@@ -1,0 +1,161 @@
+## When worlds collide: React hooks + RenderProps
+
+Function Components are awesome and so are React hooks. While we continue to adopt them in our code,
+we need to be aware of certain gotchas when you cross `FunctionComponents` and `RenderProps`.
+
+Before hooks, `RenderProps` allowed you to compose behaviors using reusable React components.
+Take the following code as an example: (Yes you can write this in a different way using hooks,
+but this example is intentional)
+
+```tsx
+const Animal = ({ name, body }) => {
+  return <Box>{body({ name })}</Box>;
+};
+
+const Biped = ({ name }) => <Legs keys={name} count={2} />;
+const Quadruped = ({ name }) => <Legs key={name} count={4} />;
+```
+
+Now we can describe different animals:
+
+```tsx
+const Dog = () => <Animal name="dog" body={Quadruped} />;
+const Cat = () => <Animal name="cat" body={Quadruped} />;
+const Human = () => <Animal name="human" body={Biped} />;
+const Ostrich = () => <Animal name="ostrich" body={Biped} />;
+```
+
+So far so good. Notice the syntax in supplying the body. If you break it down, it is similar to doing something like:
+
+```tsx
+const Dog = () => (
+  <Animal name="dog" body={({ name }) => <Legs keys={name} count={4} />} />
+);
+```
+
+The only reason not to do the above is that we want to control our re-renders by maintaining the referential identity
+of body. So before we begin on the main topic, let's quickly look at the difference between **Calling** and **Rendering**.
+
+### Rendering
+
+The `Quadruped` component above looks like a `Function Component` that takes _a single prop_.
+So naturally it makes sense to have the developer of `Animal` to think that you can use the `<Component />`
+syntax aka **Rendering** to render the component. So case in point:
+
+```tsx
+const Animal = ({ name, body: Body }) => {
+  return (
+    <Box>
+      <Body name={name} />
+    </Box>
+  );
+};
+```
+
+So far this works just fine, but what if the consumer decided to do define the body property inline, i.e.
+
+```tsx
+const Dog = () => (
+  <Animal name="dog" body={({ name }) => <Legs keys={name} count={4} />} />
+);
+```
+
+Now your constructor of the body component i.e. **Body** is going to be a different function on every render.
+This means irrespective of whether the underlying DOM/Logic has changed or not, your React component is going
+to be destroyed (unmounted) and recreated (mounted) on every render as reconciliation states that,
+if the constructor changes, then re-create it. This is because when you do `<Body />` you are basically
+invoking `React.createElement` which will return a different `\$\$type` on every render as the constructors are different.
+
+### Ok so may be we'll stick to the Calling syntax?
+
+Let's roll back to the old way of coding Animal which is:
+
+```tsx
+const Animal = ({ name, body }) => {
+  return <Box>{body({ name })}</Box>;
+};
+```
+
+Now even if the consumer specifies the function inline it won't matter as we aren't rendering the component
+_but rather rendering the return value_ of the component, which happens to be a ReactNode.
+
+Now consider the type of the body prop. You can say that it looks like this:
+
+```tsx
+body: ({ name }: { name: string }) => JSX.Element;
+```
+
+which in other works is equivalent of reading it as:
+
+```tsx
+body: React.FunctionComponent<{ name: string }>
+```
+
+So what if a new consumer decides to do the following:
+
+```tsx
+const Quadruped = ({ name }) => {
+  useEffect(() => {
+    console.log('Mounting a Quadruped');
+  }, []);
+
+  return <Legs key={name} count={4} />;
+};
+
+const Elephant = () => <Animal name="elephant" body={Quadruped} />;
+```
+
+How many times do you think it will log the above `console.log` for a single **Elephant** used only once?
+_If the answer is more than one, you are correct_. Though the developer was definitely not expecting that.
+
+This is case when you use hooks in that above example, remember that the developer of `Animal` wasn't thinking
+of it as a React component and was consider it a function. Which means he/she never rendered it,
+which means that the hook `useEffect` was being called inline. That is similar to having done something like:
+
+```tsx
+const Elephant = () =>
+  <Animal name="elephant" body={{
+    ({ name }) => {
+      // ESLINT-ERROR: RULES OF HOOKS
+      useEffect(() => {
+        console.log("Mounting a Quadruped")
+      }, []);
+
+      return <Legs key={name} count={4} />
+    }}
+  } />
+```
+
+As you see above when you try to code this. You get an **eslint** warning. The main reason this is bad is that,
+**hooks** or rather the state for hooks and their order don't live in the React tree. They live in a global
+corresponding to each node of a the React tree. The way the state associated with a hook is identified is by
+using the component's constructor reference. Same reason as before, that we can't **render** these components,
+we can't have hooks in them. So what's the solution to the above problem:
+
+```tsx
+const Elephant = () => (
+  <Animal name="elephant" body={({ name }) => <Quadruped name={name} />} />
+);
+```
+
+wordy... but it _merges the worlds of RenderProps and Hooks_.
+
+### Using TypeScript to catch these upfront
+
+Developers of the component that accept render props, in this case the person who wrote `Animal`,
+should type their components as follows:
+
+```tsx
+body: ({ name: string }) => React.ReactNode; // not JSX.Element
+```
+
+This specifically tells TypeScript that you can't render this component as `<body />` and neither can you supply
+a `React.ComponentClass` or `React.FunctionComponent` to the body argument.
+
+If you want to support **rendering** and are going to invoke it as such, then please type it as:
+
+```tsx
+body: React.ComponentType<{name: string}>
+```
+
+As always, if you can avoid being in this state by either using only hooks or renderProps, that's even better :).
