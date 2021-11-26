@@ -1,0 +1,23 @@
+import { MemoizedComponent } from '../examples/components/Memoization';
+
+## React.memo() - no context change
+
+### Memoized (no context changes)
+
+<MemoizedComponent isMemoized={true} />
+
+### Non-Memoized
+
+<MemoizedComponent isMemoized={false} />
+
+---
+
+## React.memo() - non-related context change happens
+
+### Memoized (no context changes)
+
+<MemoizedComponent isMemoized={true} />
+
+### Non-Memoized
+
+<MemoizedComponent isMemoized={false} />

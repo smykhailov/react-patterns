@@ -16,6 +16,8 @@ import Immutability from './pages/Immutability.mdx';
 import Links from './pages/Links.mdx';
 import GenericHookGuides from './pages/GenericHookGuides.mdx';
 import HooksRenderProps from './pages/HooksRenderProps.mdx';
+import Memoization from './pages/Memoization.mdx';
+import ReactMemo from './pages/ReactMemo.mdx';
 
 const App: React.FC = () => {
   return (
@@ -51,7 +53,7 @@ const App: React.FC = () => {
                 <Link to="/hooks">Hooks</Link>
                 <ul>
                   <li>
-                    <Link to="generic-hook-guides">Generic Guide</Link>
+                    <Link to="/generic-hook-guides">Generic Guide</Link>
                   </li>
                   <li>
                     <Link to="/hook-use-state">useState</Link>
@@ -61,6 +63,14 @@ const App: React.FC = () => {
                   </li>
                   <li>
                     <Link to="/hook-use-effect">useEffect</Link>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <Link to="/memoization">Memoization</Link>
+                <ul>
+                  <li>
+                    <Link to="/react-memo">React.memo()</Link>
                   </li>
                 </ul>
               </li>
@@ -97,6 +107,10 @@ const App: React.FC = () => {
                 <Route path="/hook-use-state" component={UseStateHook} />
                 <Route path="/hook-use-callback" component={UseCallbackHook} />
                 <Route path="/hook-use-effect" component={UseEffectHook} />
+
+                <Route path="/memoization" component={Memoization} />
+                <Route path="/react-memo" component={ReactMemo} />
+
                 <Route
                   path="/hooks-render-props"
                   component={HooksRenderProps}
