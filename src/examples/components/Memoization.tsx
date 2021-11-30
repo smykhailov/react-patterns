@@ -4,20 +4,34 @@ import RenderCounter from '../../components/RenderCounter';
 import { TProps, TValue } from './common';
 
 export const MemoizedComponent: FC<TProps> = (props) => {
+  return (
+    <Context.Provider value={new ContextValue(1, 1)}>
+      <MemoizedComponentInner {...props} />
+    </Context.Provider>
+  );
+};
+
+const MemoizedComponentInner: FC<TProps> = (props) => {
   const [update, value] = useForceValueUpdate(props.changeProps);
   const ctx = useContext();
 
   const changeInterestedContextValue = () => {
-    ctx.imInterestedInThisChange += 1;
+    ctx.setImInterestedValue((ctx.imInterestedInThisChange += 1));
+    update();
   };
 
   const changeNotInterestedContextValue = () => {
-    ctx.imNotInterestedInThisChange += 1;
+    ctx.setImNotInterestedValue((ctx.imNotInterestedInThisChange += 1));
+    update();
   };
 
   return (
     <RenderCounter color="black">
       <p>Container: {value}</p>
+      <p>
+        Child component <strong>is not</strong> interested in this change and
+        shouldn't re-render: {ctx.imNotInterestedInThisChange}
+      </p>
       {props.isMemoized ? (
         <ChildFunctionComponentMemoizedWithContext value={value} />
       ) : (
@@ -35,28 +49,40 @@ export const MemoizedComponent: FC<TProps> = (props) => {
   );
 };
 
-type ContextValue = {
+interface IContextValue {
   imInterestedInThisChange: number;
   imNotInterestedInThisChange: number;
-};
-const Context = React.createContext<ContextValue>({
-  imInterestedInThisChange: 1,
-  imNotInterestedInThisChange: 1,
-});
+
+  setImInterestedValue: (newValue: number) => void;
+  setImNotInterestedValue: (newValue: number) => void;
+}
+
+class ContextValue implements IContextValue {
+  constructor(
+    public imInterestedInThisChange: number,
+    public imNotInterestedInThisChange: number
+  ) {}
+
+  setImInterestedValue = (newValue: number) => {
+    this.imInterestedInThisChange = newValue;
+  };
+
+  setImNotInterestedValue = (newValue: number) => {
+    this.imNotInterestedInThisChange = newValue;
+  };
+}
+
+const Context = React.createContext<IContextValue>({} as IContextValue);
+
 const useContext = () => React.useContext(Context);
 
 const ChildFunctionComponentWithContext: FC<TValue> = (props: TValue) => {
-  const { imInterestedInThisChange, imNotInterestedInThisChange } =
-    useContext();
+  const { imInterestedInThisChange } = useContext();
 
   return (
     <RenderCounter color="blue">
       <p>Child Function Component: {props.value}</p>
       <p>I'm interested in this change: {imInterestedInThisChange}</p>
-      <p>
-        I'm <strong>not</strong> interested in this change:{' '}
-        {imNotInterestedInThisChange}
-      </p>
     </RenderCounter>
   );
 };
@@ -64,8 +90,7 @@ const ChildFunctionComponentWithContext: FC<TValue> = (props: TValue) => {
 const ChildFunctionComponentMemoizedWithContext: FC<TValue> = React.memo<
   FC<TValue>
 >((props: TValue) => {
-  const { imInterestedInThisChange, imNotInterestedInThisChange } =
-    useContext();
+  const { imInterestedInThisChange } = useContext();
 
   return (
     <RenderCounter color="blue">
@@ -73,10 +98,6 @@ const ChildFunctionComponentMemoizedWithContext: FC<TValue> = React.memo<
         Child Function Component <strong>Memoized</strong>: {props.value}
       </p>
       <p>I'm interested in this change: {imInterestedInThisChange}</p>
-      <p>
-        I'm <strong>not</strong> interested in this change:{' '}
-        {imNotInterestedInThisChange}
-      </p>
     </RenderCounter>
   );
 });
