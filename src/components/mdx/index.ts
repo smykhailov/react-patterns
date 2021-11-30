@@ -1,5 +1,7 @@
 import Code from './Code';
 
-export default {
-  code: Code
+const code = {
+  code: Code,
 };
+
+export default code;

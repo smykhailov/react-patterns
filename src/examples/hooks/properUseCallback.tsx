@@ -7,7 +7,7 @@ const MemoComponent = React.memo<{
   color: string;
   onNoop: Function;
   memoized: boolean;
-}>(props => {
+}>((props) => {
   return (
     <RenderCounter color={props.color}>
       A component wrapped with <code>React.memo()</code> with{' '}
@@ -16,7 +16,7 @@ const MemoComponent = React.memo<{
   );
 });
 
-export default () => {
+const ProperUseColback = () => {
   const memoizedCallback = React.useCallback(() => {}, []);
   const update = useForceUpdate();
 
@@ -30,3 +30,5 @@ export default () => {
     </>
   );
 };
+
+export default ProperUseColback;

@@ -26,9 +26,7 @@ export class ChildClassComponentMemoized extends Component<TValue> {
   }
 }
 
-export class ChildClassComponentWithObjectPropsStr extends Component<
-  TObjectProps
-> {
+export class ChildClassComponentWithObjectPropsStr extends Component<TObjectProps> {
   render() {
     return (
       <RenderCounter color="red">
@@ -38,9 +36,7 @@ export class ChildClassComponentWithObjectPropsStr extends Component<
   }
 }
 
-export class ChildClassComponentWithObjectPropsNum extends Component<
-  TObjectProps
-> {
+export class ChildClassComponentWithObjectPropsNum extends Component<TObjectProps> {
   render() {
     return (
       <RenderCounter color="red">
@@ -50,9 +46,7 @@ export class ChildClassComponentWithObjectPropsNum extends Component<
   }
 }
 
-export class ChildClassComponentWithObjectPropsMemoizedStr extends Component<
-  TObjectProps
-> {
+export class ChildClassComponentWithObjectPropsMemoizedStr extends Component<TObjectProps> {
   shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
     return nextProps.obj.str !== this.props.obj.str;
   }
@@ -66,9 +60,7 @@ export class ChildClassComponentWithObjectPropsMemoizedStr extends Component<
   }
 }
 
-export class ChildClassComponentWithObjectPropsMemoizedNum extends Component<
-  TObjectProps
-> {
+export class ChildClassComponentWithObjectPropsMemoizedNum extends Component<TObjectProps> {
   shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
     return nextProps.obj.num !== this.props.obj.num;
   }
@@ -102,9 +94,7 @@ export class ChildPureComponentMemoized extends PureComponent<TValue> {
   }
 }
 
-export class ChildPureComponentWithObjectPropsStr extends PureComponent<
-  TObjectProps
-> {
+export class ChildPureComponentWithObjectPropsStr extends PureComponent<TObjectProps> {
   render() {
     return (
       <RenderCounter color="green">
@@ -114,9 +104,7 @@ export class ChildPureComponentWithObjectPropsStr extends PureComponent<
   }
 }
 
-export class ChildPureComponentWithObjectPropsNum extends PureComponent<
-  TObjectProps
-> {
+export class ChildPureComponentWithObjectPropsNum extends PureComponent<TObjectProps> {
   render() {
     return (
       <RenderCounter color="green">
@@ -126,9 +114,7 @@ export class ChildPureComponentWithObjectPropsNum extends PureComponent<
   }
 }
 
-export class ChildPureComponentWithObjectPropsMemoizedStr extends PureComponent<
-  TObjectProps
-> {
+export class ChildPureComponentWithObjectPropsMemoizedStr extends PureComponent<TObjectProps> {
   shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
     return nextProps.obj.str !== this.props.obj.str;
   }
@@ -142,9 +128,7 @@ export class ChildPureComponentWithObjectPropsMemoizedStr extends PureComponent<
   }
 }
 
-export class ChildPureComponentWithObjectPropsMemoizedNum extends PureComponent<
-  TObjectProps
-> {
+export class ChildPureComponentWithObjectPropsMemoizedNum extends PureComponent<TObjectProps> {
   shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
     return nextProps.obj.num !== this.props.obj.num;
   }
@@ -168,19 +152,18 @@ export const ChildFunctionComponent: FunctionComponent<TValue> = (
   );
 };
 
-export const ChildFunctionComponentMemoized: FunctionComponent<TValue> = React.memo<
-  FunctionComponent<TValue>
->((props: TValue) => {
-  return (
-    <RenderCounter color="blue">
-      Child Function Component <strong>Memoized</strong>: {props.value}
-    </RenderCounter>
-  );
-});
+export const ChildFunctionComponentMemoized: FunctionComponent<TValue> =
+  React.memo<FunctionComponent<TValue>>((props: TValue) => {
+    return (
+      <RenderCounter color="blue">
+        Child Function Component <strong>Memoized</strong>: {props.value}
+      </RenderCounter>
+    );
+  });
 
-export const ChildFunctionComponentWithObjectPropsStr: FunctionComponent<TObjectProps> = (
-  props: TObjectProps
-) => {
+export const ChildFunctionComponentWithObjectPropsStr: FunctionComponent<
+  TObjectProps
+> = (props: TObjectProps) => {
   return (
     <RenderCounter color="blue">
       Child Function Component: {props.obj.str}
@@ -188,9 +171,9 @@ export const ChildFunctionComponentWithObjectPropsStr: FunctionComponent<TObject
   );
 };
 
-export const ChildFunctionComponentWithObjectPropsNum: FunctionComponent<TObjectProps> = (
-  props: TObjectProps
-) => {
+export const ChildFunctionComponentWithObjectPropsNum: FunctionComponent<
+  TObjectProps
+> = (props: TObjectProps) => {
   return (
     <RenderCounter color="blue">
       Child Function Component: {props.obj.num}
@@ -198,32 +181,30 @@ export const ChildFunctionComponentWithObjectPropsNum: FunctionComponent<TObject
   );
 };
 
-export const ChildFunctionComponentWithObjectPropsMemoizedStr: FunctionComponent<TObjectProps> = React.memo<
-  FunctionComponent<TObjectProps>
->(
-  (props: TObjectProps) => {
-    return (
-      <RenderCounter color="blue">
-        Child Function Component <strong>Memoized</strong>: {props.obj.str}
-      </RenderCounter>
-    );
-  },
-  (prevProps: Readonly<TObjectProps>, nextProps: Readonly<TObjectProps>) => {
-    return prevProps.obj.str === nextProps.obj.str;
-  }
-);
+export const ChildFunctionComponentWithObjectPropsMemoizedStr: FunctionComponent<TObjectProps> =
+  React.memo<FunctionComponent<TObjectProps>>(
+    (props: TObjectProps) => {
+      return (
+        <RenderCounter color="blue">
+          Child Function Component <strong>Memoized</strong>: {props.obj.str}
+        </RenderCounter>
+      );
+    },
+    (prevProps: Readonly<TObjectProps>, nextProps: Readonly<TObjectProps>) => {
+      return prevProps.obj.str === nextProps.obj.str;
+    }
+  );
 
-export const ChildFunctionComponentWithObjectPropsMemoizedNum: FunctionComponent<TObjectProps> = React.memo<
-  FunctionComponent<TObjectProps>
->(
-  (props: TObjectProps) => {
-    return (
-      <RenderCounter color="blue">
-        Child Function Component <strong>Memoized</strong>: {props.obj.num}
-      </RenderCounter>
-    );
-  },
-  (prevProps: Readonly<TObjectProps>, nextProps: Readonly<TObjectProps>) => {
-    return prevProps.obj.num === nextProps.obj.num;
-  }
-);
+export const ChildFunctionComponentWithObjectPropsMemoizedNum: FunctionComponent<TObjectProps> =
+  React.memo<FunctionComponent<TObjectProps>>(
+    (props: TObjectProps) => {
+      return (
+        <RenderCounter color="blue">
+          Child Function Component <strong>Memoized</strong>: {props.obj.num}
+        </RenderCounter>
+      );
+    },
+    (prevProps: Readonly<TObjectProps>, nextProps: Readonly<TObjectProps>) => {
+      return prevProps.obj.num === nextProps.obj.num;
+    }
+  );

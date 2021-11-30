@@ -5,9 +5,7 @@ interface IClassComponentWithMethodComponentsProps {
   str: string;
   num: number;
 }
-export class ClassComponentWithMethodComponents extends React.PureComponent<
-  IClassComponentWithMethodComponentsProps
-> {
+export class ClassComponentWithMethodComponents extends React.PureComponent<IClassComponentWithMethodComponentsProps> {
   private strMethodComponent() {
     const { str } = this.props;
     return (
@@ -95,10 +93,10 @@ export const Wrapper = ({ isCorrect }: { isCorrect: boolean }) => {
       ) : (
         <ClassComponentWithMethodComponents num={num} str={str} />
       )}
-      <button onClick={() => setStr(prev => `${parseInt(prev) + 1}`)}>
+      <button onClick={() => setStr((prev) => `${parseInt(prev) + 1}`)}>
         Update `str`
       </button>
-      <button onClick={() => setNum(prev => prev + 1)}>Update `num`</button>
+      <button onClick={() => setNum((prev) => prev + 1)}>Update `num`</button>
     </div>
   );
 };

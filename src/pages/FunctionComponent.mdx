@@ -39,15 +39,14 @@ By default it will only shallowly compare complex objects in the props object. I
 
 ```tsx
 // ✅ Memoize component to make sure it doesn't re-render, when props have been changed.
-export const ChildFunctionComponentMemoized: FunctionComponent<TValue> = React.memo<
-  FunctionComponent<TValue>
->((props: TValue) => {
-  return (
-    <RenderCounter color="blue">
-      Child Function Component <strong>Memoized</strong>: {props.value}
-    </RenderCounter>
-  );
-});
+export const ChildFunctionComponentMemoized: FunctionComponent<TValue> =
+  React.memo<FunctionComponent<TValue>>((props: TValue) => {
+    return (
+      <RenderCounter color="blue">
+        Child Function Component <strong>Memoized</strong>: {props.value}
+      </RenderCounter>
+    );
+  });
 ```
 
 <PlainPropsFunctionComponent isMemoized={true} changeProps={false} />
@@ -82,9 +81,9 @@ export type TObjectValue = {
 The component takes object properties as defined above:
 
 ```tsx
-export const ChildFunctionComponentWithObjectProps: FunctionComponent<TObjectProps> = (
-  props: TObjectProps
-) => {
+export const ChildFunctionComponentWithObjectProps: FunctionComponent<
+  TObjectProps
+> = (props: TObjectProps) => {
   // The component only works with ✅ obj.str property and ignores ✅ obj.num
   // If parent component doesn't change the ✅ obj.str, but changes ⛔ obj.num
   // this component will still re-render 💣
@@ -122,21 +121,20 @@ export const ChildFunctionComponentMemoized: FunctionComponent<{
 ## Solution 2: Add comparison function
 
 ```tsx
-export const ChildFunctionComponentWithObjectPropsMemoized: FunctionComponent<TObjectProps> = React.memo<
-  FunctionComponent<TObjectProps>
->(
-  (props: TObjectProps) => {
-    return (
-      <RenderCounter color="blue">
-        Child Function Component <strong>Memoized</strong>: {props.obj.str}
-      </RenderCounter>
-    );
-  },
-  // ✅ Add the properties comparison function.
-  (prevProps: Readonly<TObjectProps>, nextProps: Readonly<TObjectProps>) => {
-    return prevProps.obj.str === nextProps.obj.str;
-  }
-);
+export const ChildFunctionComponentWithObjectPropsMemoized: FunctionComponent<TObjectProps> =
+  React.memo<FunctionComponent<TObjectProps>>(
+    (props: TObjectProps) => {
+      return (
+        <RenderCounter color="blue">
+          Child Function Component <strong>Memoized</strong>: {props.obj.str}
+        </RenderCounter>
+      );
+    },
+    // ✅ Add the properties comparison function.
+    (prevProps: Readonly<TObjectProps>, nextProps: Readonly<TObjectProps>) => {
+      return prevProps.obj.str === nextProps.obj.str;
+    }
+  );
 ```
 
 <ObjectPropsFunctionComponent isMemoized={true} changeProps={false} />

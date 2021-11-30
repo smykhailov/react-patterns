@@ -6,7 +6,7 @@ import { useForceUpdate } from '../../hooks/useForceUpdate';
 type ContextValue = { value: number };
 const Context = React.createContext<ContextValue>({ value: 1 });
 
-const Provider: React.FC = props => {
+const Provider: React.FC = (props) => {
   const value = { value: 1 };
   return (
     <RenderCounter color="blue">
@@ -30,7 +30,7 @@ const Consumer: React.FC = React.memo(() => {
   );
 });
 
-export default () => {
+const ContextUnmemoized = () => {
   const update = useForceUpdate();
 
   return (
@@ -43,3 +43,5 @@ export default () => {
     </>
   );
 };
+
+export default ContextUnmemoized;

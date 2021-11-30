@@ -9,7 +9,7 @@ type CodeProps = {
   children?: string;
 };
 
-const Code: React.FC<CodeProps> = props => {
+const Code: React.FC<CodeProps> = (props) => {
   const { className = 'language-jsx', children = '' } = props;
   const language: Language = className.replace('language-', '') as any;
   const code = children.replace(/\n$/, '');

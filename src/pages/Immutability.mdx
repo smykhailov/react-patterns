@@ -99,16 +99,17 @@ we would have to make sure that the object is copied properly to form a new stat
 concept of "deep copy" in javascript, doing this can be rather cumbersome:
 
 ```jsx
-export const Component: React.FunctionComponent = props => {
+export const Component: React.FunctionComponent = (props) => {
   const [state, setState] = React.useState(getCumbersomeState());
 
-  const getStateString = React.useCallback(() => JSON.stringify(state), [
-    state
-  ]);
+  const getStateString = React.useCallback(
+    () => JSON.stringify(state),
+    [state]
+  );
 
   const updateJillsStreet = () => {
     // It is easy to get lost in this sea of spread operators and brackets.
-    setState(prevState => ({
+    setState((prevState) => ({
       people: [
         { ...prevState.people[0] },
         {
@@ -116,11 +117,11 @@ export const Component: React.FunctionComponent = props => {
           addresses: [
             {
               ...prevState.people[1].addresses[0],
-              street: `Street ${Math.random()}`
-            }
-          ]
-        }
-      ]
+              street: `Street ${Math.random()}`,
+            },
+          ],
+        },
+      ],
     }));
   };
 
@@ -144,16 +145,17 @@ state that is passed to the _produce_ function along with the draft callback. Th
 how we go from cumbersome, ugly, and ureadable to straightforward, beautiful, and well readable:
 
 ```jsx
-export const Component: React.FunctionComponent = props => {
+export const Component: React.FunctionComponent = (props) => {
   const [state, setState] = React.useState(getCumbersomeState());
 
-  const getStateString = React.useCallback(() => JSON.stringify(state), [
-    state
-  ]);
+  const getStateString = React.useCallback(
+    () => JSON.stringify(state),
+    [state]
+  );
 
   const updateJillsStreet = () => {
     setState(
-      produce(state, _draft => {
+      produce(state, (_draft) => {
         _draft.people[1].addresses[0].street = `Street ${Math.random()}`;
       })
     );
@@ -174,15 +176,16 @@ This can be further simplified by using the _use-immer_ npm package that provide
 that combines the native _React.useState_ and Immer's _produce_:
 
 ```jsx
-export const Component: React.FunctionComponent = props => {
+export const Component: React.FunctionComponent = (props) => {
   const [state, setState] = useImmer(getCumbersomeState());
 
-  const getStateString = React.useCallback(() => JSON.stringify(state), [
-    state
-  ]);
+  const getStateString = React.useCallback(
+    () => JSON.stringify(state),
+    [state]
+  );
 
   const updateJillsStreet = () => {
-    setState(_draft => {
+    setState((_draft) => {
       _draft.people[1].addresses[0].street = `Street ${Math.random()}`;
     });
   };

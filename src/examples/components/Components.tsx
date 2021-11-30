@@ -7,11 +7,11 @@ import {
   ChildFunctionComponent,
   ChildClassComponentMemoized,
   ChildFunctionComponentMemoized,
-  ChildPureComponentMemoized
+  ChildPureComponentMemoized,
 } from './ChildComponents';
 import { TProps } from './common';
 
-export default (props: TProps) => {
+const Components = (props: TProps) => {
   const [update, value] = useForceValueUpdate(props.changeProps);
 
   return (
@@ -35,3 +35,5 @@ export default (props: TProps) => {
     </RenderCounter>
   );
 };
+
+export default Components;

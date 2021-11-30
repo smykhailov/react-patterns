@@ -15,7 +15,7 @@ const MemoComponent = React.memo<{ onNoop: Function }>(() => {
   );
 });
 
-export default () => {
+const UselessUseCallback = () => {
   const memoizedCallback = React.useCallback(() => {}, []);
   const update = useForceUpdate();
 
@@ -29,3 +29,5 @@ export default () => {
     </>
   );
 };
+
+export default UselessUseCallback;

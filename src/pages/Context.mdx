@@ -14,7 +14,7 @@ All consumers that are descendants of a `Provider` will re-render whenever the `
 
 ```jsx
 // 💡 React.memo will ignored
-const Example = React.memo(props => {
+const Example = React.memo((props) => {
   // 💣 Updates will be triggered inside
   const value = React.useContext(Context);
 
@@ -65,7 +65,7 @@ class Example extends React.Component {
 If value is changing rarely is good option to memoize an object value with `useMemo()` hook.
 
 ```jsx
-const Example = props => {
+const Example = (props) => {
   const { children, value } = props;
   // ✅ Now new `context` will be recreated only on `value` change
   const context = React.useMemo(() => ({ value }), [value]);
@@ -84,7 +84,7 @@ This trick was [described](https://kentcdodds.com/blog/how-to-use-react-context-
 values in separate contexts to avoid useless notifications to subscribers.
 
 ```jsx
-const Example = props => {
+const Example = (props) => {
   const { children } = props;
 
   // ❗ both values are plain and safe for shallow compare
