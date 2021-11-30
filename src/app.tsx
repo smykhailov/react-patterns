@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import Overview from './pages/Overview.mdx';
 import Components from './pages/Components.mdx';
@@ -90,36 +90,39 @@ const App: React.FC = () => {
           </aside>
           <main>
             <React.Suspense fallback={<div>Loading...</div>}>
-              <Switch>
-                <Route path="/components" component={Components} />
-                <Route path="/class-component" component={ClassComponent} />
-                <Route path="/pure-component" component={PureComponent} />
+              <Routes>
+                <Route path="/components" element={<Components />} />
+                <Route path="/class-component" element={<ClassComponent />} />
+                <Route path="/pure-component" element={<PureComponent />} />
                 <Route
                   path="/function-component"
-                  component={FunctionComponent}
+                  element={<FunctionComponent />}
                 />
-                <Route path="/method-component" component={MethodComponent} />
-                <Route path="/hooks" component={Hooks} />
+                <Route path="/method-component" element={<MethodComponent />} />
+                <Route path="/hooks" element={<Hooks />} />
                 <Route
                   path="/generic-hook-guides"
-                  component={GenericHookGuides}
+                  element={<GenericHookGuides />}
                 />
-                <Route path="/hook-use-state" component={UseStateHook} />
-                <Route path="/hook-use-callback" component={UseCallbackHook} />
-                <Route path="/hook-use-effect" component={UseEffectHook} />
+                <Route path="/hook-use-state" element={<UseStateHook />} />
+                <Route
+                  path="/hook-use-callback"
+                  element={<UseCallbackHook />}
+                />
+                <Route path="/hook-use-effect" element={<UseEffectHook />} />
 
-                <Route path="/memoization" component={Memoization} />
-                <Route path="/react-memo" component={ReactMemo} />
+                <Route path="/memoization" element={<Memoization />} />
+                <Route path="/react-memo" element={<ReactMemo />} />
 
                 <Route
                   path="/hooks-render-props"
-                  component={HooksRenderProps}
+                  element={<HooksRenderProps />}
                 />
-                <Route path="/context" component={Context} />
-                <Route path="/immutability" component={Immutability} />
-                <Route path="/links" component={Links} />
-                <Route exact path="/" component={Overview} />
-              </Switch>
+                <Route path="/context" element={<Context />} />
+                <Route path="/immutability" element={<Immutability />} />
+                <Route path="/links" element={<Links />} />
+                <Route path="/" element={<Overview />} />
+              </Routes>
             </React.Suspense>
           </main>
         </div>

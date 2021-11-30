@@ -6,7 +6,7 @@ type ContextValue = number;
 const FooContext = React.createContext<ContextValue>(0);
 const BarContext = React.createContext<ContextValue>(0);
 
-const Provider: React.FC<{ foo: number; bar: number }> = props => {
+const Provider: React.FC<{ foo: number; bar: number }> = (props) => {
   const { foo, bar } = props;
 
   return (
@@ -43,7 +43,7 @@ const ConsumerBar: React.FC = React.memo(() => {
   );
 });
 
-export default () => {
+const ContextSeparate = () => {
   const [count, setCount] = React.useState(0);
 
   return (
@@ -57,3 +57,5 @@ export default () => {
     </>
   );
 };
+
+export default ContextSeparate;

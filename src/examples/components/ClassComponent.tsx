@@ -7,7 +7,7 @@ import {
   ChildClassComponentWithObjectPropsMemoizedStr,
   ChildClassComponentWithObjectPropsMemoizedNum,
   ChildClassComponentWithObjectPropsStr,
-  ChildClassComponentWithObjectPropsNum
+  ChildClassComponentWithObjectPropsNum,
 } from './ChildComponents';
 import { TProps, TObjectValue } from './common';
 
@@ -31,15 +31,15 @@ export const PlainPropsClassComponent: FC<TProps> = (props: TProps) => {
 export const ObjectPropsClassComponent: FC<TProps> = (props: TProps) => {
   const initialValue: TObjectValue = {
     num: 1,
-    str: 'hello'
+    str: 'hello',
   };
   const [value, setIt] = useState<TObjectValue>(initialValue);
   const setNum = () =>
-    setIt(prevState => ({ num: prevState.num + 1, str: prevState.str }));
+    setIt((prevState) => ({ num: prevState.num + 1, str: prevState.str }));
   const setStr = () =>
-    setIt(prevState => ({
+    setIt((prevState) => ({
       num: prevState.num,
-      str: `${initialValue.str} ${Math.round(Math.random() * 100)}`
+      str: `${initialValue.str} ${Math.round(Math.random() * 100)}`,
     }));
 
   const update = props.changeProps ? setStr : setNum;

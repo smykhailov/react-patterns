@@ -6,7 +6,7 @@ type RenderCounterProps = {
   style?: React.CSSProperties;
 };
 
-const RenderCounter: React.FC<RenderCounterProps> = props => {
+const RenderCounter: React.FC<RenderCounterProps> = (props) => {
   const counter = React.useRef<number>(0);
   counter.current += 1;
 
@@ -20,7 +20,7 @@ const RenderCounter: React.FC<RenderCounterProps> = props => {
         position: 'relative',
         width: '70%',
         marginTop: 4,
-        marginBottom: 4
+        marginBottom: 4,
       }}
     >
       <div
@@ -31,7 +31,7 @@ const RenderCounter: React.FC<RenderCounterProps> = props => {
           background: 'black',
           color: 'white',
           fontFamily: 'monospace',
-          padding: 2
+          padding: 2,
         }}
       >
         Render count: {counter.current}

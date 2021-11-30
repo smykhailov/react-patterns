@@ -25,9 +25,7 @@ interface IClassComponentWithMethodComponentsProps {
   str: string;
   num: number;
 }
-export class ClassComponentWithMethodComponents extends React.PureComponent<
-  IClassComponentWithMethodComponentsProps
-> {
+export class ClassComponentWithMethodComponents extends React.PureComponent<IClassComponentWithMethodComponentsProps> {
   private strMethodComponent() {
     const { str } = this.props;
     return (

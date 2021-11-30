@@ -100,9 +100,7 @@ export type TObjectValue = {
 The component takes object properties as defined above:
 
 ```tsx
-export class ChildClassComponentWithObjectProps extends Component<
-  TObjectProps
-> {
+export class ChildClassComponentWithObjectProps extends Component<TObjectProps> {
   render() {
     // The component only works with ✅ obj.str property and ignores ✅ obj.num
     // If parent component doesn't change the ✅ obj.str, but changes ⛔ obj.num
@@ -153,9 +151,7 @@ When parent component changes `obj.num` and doesn't change `obj.str`, the compon
 **does not** re-render.
 
 ```tsx
-export class ChildClassComponentWithObjectPropsMemoized extends Component<
-  TObjectProps
-> {
+export class ChildClassComponentWithObjectPropsMemoized extends Component<TObjectProps> {
   shouldComponentUpdate(nextProps: Readonly<TObjectProps>) {
     // ✅ Make sure you cover scenario, when other developer
     // could potentially add other fields to the props object

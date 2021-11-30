@@ -3,18 +3,9 @@ import RenderCounter from '../../components/RenderCounter';
 
 type ContextValue = { foo: number; bar: number };
 
-const Context = React.createContext<ContextValue>(
-  { foo: 0, bar: 0 },
-  (prev, next) => {
-    if (prev.foo !== next.foo) {
-      return 1;
-    }
+const Context = React.createContext<ContextValue>({ foo: 0, bar: 0 });
 
-    return 0;
-  }
-);
-
-const Provider: React.FC<{ foo: number; bar: number }> = props => {
+const Provider: React.FC<{ foo: number; bar: number }> = (props) => {
   const { foo, bar } = props;
 
   return (
@@ -30,8 +21,8 @@ const Provider: React.FC<{ foo: number; bar: number }> = props => {
 };
 
 const ConsumerFoo: React.FC = React.memo(() => (
-  <Context.Consumer unstable_observedBits={1}>
-    {value => (
+  <Context.Consumer>
+    {(value) => (
       <RenderCounter color="green">
         <code>
           ConsumerFoo (listens for <code>foo</code>):{' '}
@@ -43,8 +34,8 @@ const ConsumerFoo: React.FC = React.memo(() => (
 ));
 
 const ConsumerBar: React.FC = React.memo(() => (
-  <Context.Consumer unstable_observedBits={2}>
-    {value => (
+  <Context.Consumer>
+    {(value) => (
       <RenderCounter color="red">
         <code>
           ConsumerBar (listens for <code>bar</code>):{' '}
@@ -55,7 +46,7 @@ const ConsumerBar: React.FC = React.memo(() => (
   </Context.Consumer>
 ));
 
-export default () => {
+const Comp = () => {
   const [count, setCount] = React.useState(0);
 
   return (
@@ -69,3 +60,5 @@ export default () => {
     </>
   );
 };
+
+export default Comp;

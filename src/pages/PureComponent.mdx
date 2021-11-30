@@ -62,9 +62,7 @@ export type TObjectValue = {
 The component takes object properties as defined above:
 
 ```tsx
-export class ChildPureComponentWithObjectProps extends PureComponent<
-  TObjectProps
-> {
+export class ChildPureComponentWithObjectProps extends PureComponent<TObjectProps> {
   render() {
     // The component only works with ✅ obj.str property and ignores ✅ obj.num
     // If parent component doesn't change the ✅ obj.str, but changes ⛔ obj.num

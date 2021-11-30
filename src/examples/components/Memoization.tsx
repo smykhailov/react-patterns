@@ -46,10 +46,8 @@ const Context = React.createContext<ContextValue>({
 const useContext = () => React.useContext(Context);
 
 const ChildFunctionComponentWithContext: FC<TValue> = (props: TValue) => {
-  const {
-    imInterestedInThisChange,
-    imNotInterestedInThisChange,
-  } = useContext();
+  const { imInterestedInThisChange, imNotInterestedInThisChange } =
+    useContext();
 
   return (
     <RenderCounter color="blue">
@@ -66,10 +64,8 @@ const ChildFunctionComponentWithContext: FC<TValue> = (props: TValue) => {
 const ChildFunctionComponentMemoizedWithContext: FC<TValue> = React.memo<
   FC<TValue>
 >((props: TValue) => {
-  const {
-    imInterestedInThisChange,
-    imNotInterestedInThisChange,
-  } = useContext();
+  const { imInterestedInThisChange, imNotInterestedInThisChange } =
+    useContext();
 
   return (
     <RenderCounter color="blue">
